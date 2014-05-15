@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:consent="http://minameddelanden.gov.se/Consent" 
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	              xmlns:xsd="http://www.w3.org/2001/XMLSchema"  
+	              name="Consent"
+	              targetNamespace="http://minameddelanden.gov.se/Consent">
+	
+  <wsdl:types>
+    <xsd:schema
+    	targetNamespace="http://minameddelanden.gov.se/Consent"
+		xmlns:tns="http://minameddelanden.gov.se/Consent"
+    	xmlns:c="http://minameddelanden.gov.se/schema/Common"
+    	xmlns:r="http://minameddelanden.gov.se/schema/Recipient"
+		xmlns:authority="http://minameddelanden.gov.se/schema/Authority"
+    	xmlns:consent="http://minameddelanden.gov.se/schema/Consent">
+
+        <xsd:import schemaLocation="schema/Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common"/>
+        <xsd:import schemaLocation="schema/Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"/>
+		<xsd:import schemaLocation="schema/Consent.xsd" namespace="http://minameddelanden.gov.se/schema/Consent"/>
+		<xsd:import schemaLocation="schema/Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority"/>
+		                
+    	<xsd:element name="registerConsent">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="consent:ConsentRequest" minOccurs="1" maxOccurs="1" />
+    				<xsd:element name="arg1" type="c:SignatureData" minOccurs="1" maxOccurs="unbounded" />
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="registerConsentResponse">
+    		<xsd:complexType>
+          		<xsd:sequence>
+            		<xsd:element name="return" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"/>
+          		</xsd:sequence>
+        	</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="registerConsentFault" type="c:ExceptionInformation"></xsd:element>
+	    
+    	<xsd:element name="accept">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="acceptResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="acceptFault" type="c:ExceptionInformation"></xsd:element>
+
+    	<xsd:element name="refuse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1"></xsd:element>
+    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="refuseResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="refuseFault" type="c:ExceptionInformation"></xsd:element>
+    	<xsd:element name="cancel">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="consent:ConsentRequest" minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="c:SignatureData" minOccurs="0" maxOccurs="unbounded" >
+    				</xsd:element>
+    				<xsd:element name="arg2" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="cancelResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="return" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>	
+    	<xsd:element name="cancelFault" type="c:ExceptionInformation"></xsd:element>
+    	<xsd:element name="getAll">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="0" maxOccurs="unbounded">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="getAllResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="return" type="consent:Consent" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="getAllFault" type="c:ExceptionInformation"></xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="registerConsentRequest">
+    <wsdl:part element="consent:registerConsent" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="registerConsentResponse">
+    <wsdl:part element="consent:registerConsentResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="registerConsentFault">
+  	<wsdl:part name="fault" element="consent:registerConsentFault"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="acceptRequest">
+  	<wsdl:part name="parameters" element="consent:accept"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acceptResponse">
+  	<wsdl:part name="parameters" element="consent:acceptResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="acceptFault">
+  	<wsdl:part name="fault" element="consent:acceptFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refuseRequest">
+  	<wsdl:part name="parameters" element="consent:refuse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refuseResponse">
+  	<wsdl:part name="parameters" element="consent:refuseResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="refuseFault">
+  	<wsdl:part name="parameters" element="consent:refuseFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelRequest">
+  	<wsdl:part name="parameters" element="consent:cancel"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelResponse">
+  	<wsdl:part name="parameters" element="consent:cancelResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelFault">
+  	<wsdl:part name="parameters" element="consent:cancelFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllRequest">
+  	<wsdl:part name="parameters" element="consent:getAll"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllResponse">
+  	<wsdl:part name="parameters" element="consent:getAllResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllFault">
+  	<wsdl:part name="parameters" element="consent:getAllFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ConsentPort">
+    
+    <wsdl:operation name="registerConsent">
+      	<wsdl:input message="consent:registerConsentRequest"/>
+      	<wsdl:output message="consent:registerConsentResponse"/>
+        <wsdl:fault name="fault" message="consent:registerConsentFault"></wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="accept">
+    	<wsdl:input message="consent:acceptRequest"></wsdl:input>
+    	<wsdl:output message="consent:acceptResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="consent:acceptFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="refuse">
+    	<wsdl:input message="consent:refuseRequest"></wsdl:input>
+    	<wsdl:output message="consent:refuseResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="consent:refuseFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="cancel">
+    	<wsdl:input message="consent:cancelRequest"></wsdl:input>
+    	<wsdl:output message="consent:cancelResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="consent:cancelFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="getAll">
+    	<wsdl:input message="consent:getAllRequest"></wsdl:input>
+    	<wsdl:output message="consent:getAllResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="consent:getAllFault"></wsdl:fault>
+        </wsdl:operation>
+  </wsdl:portType>
+    
+  <wsdl:binding name="ConsentBinding" type="consent:ConsentPort">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+
+  	<wsdl:operation name="registerConsent">
+  		<soap:operation soapAction="" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="fault">
+  			<soap:fault name="fault" use="literal" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+
+  	<wsdl:operation name="accept">
+  		<soap:operation soapAction="" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="fault">
+  			<soap:fault name="fault" use="literal" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+  	
+  	<wsdl:operation name="refuse">
+  		<soap:operation soapAction="" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="fault">
+  			<soap:fault name="fault" use="literal" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+  	
+  	<wsdl:operation name="cancel">
+  		<soap:operation soapAction="" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="fault">
+  			<soap:fault name="fault" use="literal" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+  	
+  	<wsdl:operation name="getAll">
+  		<soap:operation soapAction="" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="fault">
+  			<soap:fault name="fault" use="literal" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+
+  </wsdl:binding>
+  <wsdl:service name="Consent">
+    <wsdl:port binding="consent:ConsentBinding" name="ConsentPort">
+      <soap:address location="http://minameddelanden.gov.se/Consent"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	targetNamespace="http://minameddelanden.gov.se/schema/Notification"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:notification="http://minameddelanden.gov.se/schema/Notification"
+	xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+	xmlns:message="http://minameddelanden.gov.se/schema/Message">
+
+
+	<import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"></import>
+	<import schemaLocation="Message.xsd" namespace="http://minameddelanden.gov.se/schema/Message"></import>
+	
+	
+	<complexType name="NotificationMessage">
+		<annotation>
+			<documentation></documentation>
+		</annotation>
+		<sequence>
+			<element name="From" type="string" minOccurs="1" maxOccurs="1"></element>
+			<element name="Subject" minOccurs="1" maxOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<minLength value="0"></minLength>
+						<maxLength value="1024"></maxLength>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="Text" type="string" minOccurs="1"
+				maxOccurs="1">
+			</element>
+			<element name="Notificationtype"
+				type="notification:NotificationTypes" minOccurs="1" maxOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="NotificationTypes">
+		<restriction base="string">
+			<enumeration value="SMS"></enumeration>
+			<enumeration value="EMail"></enumeration>
+			<enumeration value="IOS"></enumeration>
+			<enumeration value="Android"></enumeration>
+			<enumeration value="Not"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="NotificationStatus">
+		<sequence>
+			<element name="RecipientId" type="recipient:RecipientId"
+				minOccurs="1" maxOccurs="1">
+			</element>
+			<element name="Status" type="notification:NotificationTypes" minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="NotifyResult">
+		<sequence>
+			<element name="TransId" type="string" minOccurs="1" maxOccurs="1"></element>
+			<element name="Status" type="notification:NotificationStatus" minOccurs="1" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="NotificationDelivery">
+		<sequence>
+			<element name="Header" type="message:DeliveryHeader"
+				minOccurs="1" maxOccurs="1">
+			</element>
+			<element name="Message" type="notification:NotificationMessage" minOccurs="1" maxOccurs="2"></element>
+		</sequence>
+	</complexType>
+</schema>

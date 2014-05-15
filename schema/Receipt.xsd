@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Receipt"
+  elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+  xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
+  xmlns:sig="http://www.w3.org/2000/09/xmldsig#">
+
+  <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
+  <import schemaLocation="xmldsig-core-schema.xsd" namespace="http://www.w3.org/2000/09/xmldsig#" />
+
+   <simpleType name="ReceiptOptions">
+    <restriction base="string">
+      <enumeration value="NOT" />
+      <enumeration value="SIMPLE" />
+      <enumeration value="SIGNED" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="Receipt">
+    <sequence>
+      <element name="MessageId" type="string" minOccurs="1" maxOccurs="1" />
+      <element name="ReceiptRecipient" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+      <element name="ReceiptSender" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+      <element name="AcknowledgedTime" type="date" minOccurs="1" maxOccurs="1" />
+      <element ref="sig:Signature" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+</schema>

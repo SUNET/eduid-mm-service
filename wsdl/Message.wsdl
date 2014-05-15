@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:msg="http://minameddelanden.gov.se/Message"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  name="Message"
+                  targetNamespace="http://minameddelanden.gov.se/Message">
+
+  <wsdl:types>
+    <xsd:schema
+      targetNamespace="http://minameddelanden.gov.se/Message"
+      xmlns:tns="http://minameddelanden.gov.se/Message"
+      xmlns:sender="http://minameddelanden.gov.se/Sender"
+      xmlns:s="http://minameddelanden.gov.se/schema/Sender"
+      xmlns:r="http://minameddelanden.gov.se/schema/Recipient"
+      xmlns:n="http://minameddelanden.gov.se/schema/Notification"
+      xmlns:m="http://minameddelanden.gov.se/schema/Message"
+      xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
+      xmlns:reply="http://minameddelanden.gov.se/schema/Reply"
+      xmlns:c="http://minameddelanden.gov.se/schema/Common">
+
+      <xsd:import schemaLocation="schema/Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
+      <xsd:import schemaLocation="schema/Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
+      <xsd:import schemaLocation="schema/Notification.xsd" namespace="http://minameddelanden.gov.se/schema/Notification" />
+      <xsd:import schemaLocation="schema/Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
+      <xsd:import schemaLocation="schema/Message.xsd" namespace="http://minameddelanden.gov.se/schema/Message" />
+      <xsd:import schemaLocation="schema/Receipt.xsd" namespace="http://minameddelanden.gov.se/schema/Receipt" />
+      <xsd:import schemaLocation="schema/Reply.xsd" namespace="http://minameddelanden.gov.se/schema/Reply" />
+
+      <xsd:element name="distributeReply">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="reply:ReplyDelivery" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeReplyResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeReplyFault" type="c:ExceptionInformation" />
+      <xsd:element name="distributeReceipt">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="receipt:Receipt" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeReceiptResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeReceiptFault" type="c:ExceptionInformation" />
+      <xsd:element name="distributeSecure">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="m:SignedDelivery" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeSecureResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeSecureFault" type="c:ExceptionInformation" />
+      <xsd:element name="distributeSimple">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="m:SimpleDelivery" minOccurs="1" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeSimpleResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeSimpleFault" type="c:ExceptionInformation" />
+      <xsd:element name="checkDistributionStatus">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="arg1" minOccurs="1" maxOccurs="1">
+              <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                  <xsd:minLength value="1"></xsd:minLength>
+                  <xsd:maxLength value="50"></xsd:maxLength>
+                </xsd:restriction>
+              </xsd:simpleType>
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkDistributionStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="m:DistributionStatus" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkDistributionStatusFault" type="c:ExceptionInformation" />
+      <xsd:element name="distributeForward">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="m:ForwardDelivery" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeForwardResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:string" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="distributeForwardFault" type="c:ExceptionInformation" />
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="distributeReplyRequest">
+    <wsdl:part name="parameters" element="msg:distributeReply" />
+  </wsdl:message>
+  <wsdl:message name="distributeReplyResponse">
+    <wsdl:part name="parameters" element="msg:distributeReplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="distributeReplyFault">
+    <wsdl:part name="fault" element="msg:distributeReplyFault" />
+  </wsdl:message>
+  <wsdl:message name="distributeReceiptRequest">
+    <wsdl:part name="parameters" element="msg:distributeReceipt" />
+  </wsdl:message>
+  <wsdl:message name="distributeReceiptResponse">
+    <wsdl:part name="parameters" element="msg:distributeReceiptResponse" />
+  </wsdl:message>
+  <wsdl:message name="distributeReceiptFault">
+    <wsdl:part name="fault" element="msg:distributeReceiptFault" />
+  </wsdl:message>
+  <wsdl:message name="distributeSecureRequest">
+    <wsdl:part name="parameters" element="msg:distributeSecure" />
+  </wsdl:message>
+  <wsdl:message name="distributeSecureResponse">
+    <wsdl:part name="parameters" element="msg:distributeSecureResponse" />
+  </wsdl:message>
+  <wsdl:message name="distributeSecureFault">
+    <wsdl:part name="fault" element="msg:distributeSecureFault" />
+  </wsdl:message>
+  <wsdl:message name="distributeSimpleRequest">
+    <wsdl:part name="parameters" element="msg:distributeSimple" />
+  </wsdl:message>
+  <wsdl:message name="distributeSimpleResponse">
+    <wsdl:part name="parameters" element="msg:distributeSimpleResponse" />
+  </wsdl:message>
+  <wsdl:message name="distributeSimpleFault">
+    <wsdl:part name="fault" element="msg:distributeSimpleFault" />
+  </wsdl:message>
+  <wsdl:message name="checkDistributionStatusRequest">
+    <wsdl:part name="parameters" element="msg:checkDistributionStatus" />
+  </wsdl:message>
+  <wsdl:message name="checkDistributionStatusResponse">
+    <wsdl:part name="parameters" element="msg:checkDistributionStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="checkDistributionStatusFault">
+    <wsdl:part name="fault" element="msg:checkDistributionStatusFault" />
+  </wsdl:message>
+  <wsdl:message name="distributeForwardRequest">
+    <wsdl:part name="parameters" element="msg:distributeForward" />
+  </wsdl:message>
+  <wsdl:message name="distributeForwardResponse">
+    <wsdl:part name="parameters" element="msg:distributeForwardResponse" />
+  </wsdl:message>
+  <wsdl:message name="distributeForwardFault">
+    <wsdl:part name="fault" element="msg:distributeForwardFault" />
+  </wsdl:message>
+
+  <wsdl:portType name="MessagePort">
+    <wsdl:operation name="distributeReply">
+      <wsdl:input message="msg:distributeReplyRequest" />
+      <wsdl:output message="msg:distributeReplyResponse" />
+      <wsdl:fault name="fault" message="msg:distributeReplyFault" />
+    </wsdl:operation>
+    <wsdl:operation name="distributeReceipt">
+      <wsdl:input message="msg:distributeReceiptRequest" />
+      <wsdl:output message="msg:distributeReceiptResponse" />
+      <wsdl:fault name="fault" message="msg:distributeReceiptFault" />
+    </wsdl:operation>
+    <wsdl:operation name="distributeSecure">
+      <wsdl:input message="msg:distributeSecureRequest" />
+      <wsdl:output message="msg:distributeSecureResponse" />
+      <wsdl:fault name="fault" message="msg:distributeSecureFault" />
+    </wsdl:operation>
+    <wsdl:operation name="distributeSimple">
+      <wsdl:input message="msg:distributeSimpleRequest" />
+      <wsdl:output message="msg:distributeSimpleResponse" />
+      <wsdl:fault name="fault" message="msg:distributeSimpleFault" />
+    </wsdl:operation>
+    <wsdl:operation name="checkDistributionStatus">
+      <wsdl:input message="msg:checkDistributionStatusRequest" />
+      <wsdl:output message="msg:checkDistributionStatusResponse" />
+      <wsdl:fault name="fault" message="msg:checkDistributionStatusFault" />
+    </wsdl:operation>
+    <wsdl:operation name="distributeForward">
+      <wsdl:input message="msg:distributeForwardRequest" />
+      <wsdl:output message="msg:distributeForwardResponse" />
+      <wsdl:fault name="fault" message="msg:distributeForwardFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="MessageBinding" type="msg:MessagePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="distributeReply">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="distributeReceipt">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="distributeSecure">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="distributeSimple">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="distributeForward">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="checkDistributionStatus">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Message">
+    <wsdl:port binding="msg:MessageBinding" name="MessagePort">
+      <soap:address location="http://minameddelanden.gov.se/Message"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

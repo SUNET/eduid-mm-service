@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:recipient="http://minameddelanden.gov.se/Recipient"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  name="RecipientDefinitions"
+                  targetNamespace="http://minameddelanden.gov.se/Recipient">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://minameddelanden.gov.se/Recipient"
+                xmlns:c="http://minameddelanden.gov.se/schema/Common"
+                xmlns:r="http://minameddelanden.gov.se/schema/Recipient"
+                xmlns:s="http://minameddelanden.gov.se/schema/Sender"
+                xmlns:authority="http://minameddelanden.gov.se/schema/Authority">
+
+		<xsd:import schemaLocation="schema/Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common"/>
+        <xsd:import schemaLocation="schema/Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"/>
+        <xsd:import schemaLocation="schema/Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority"/>
+        <xsd:import schemaLocation="schema/Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender"/>
+        
+        <xsd:element name="getAccountPreferences">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAccountPreferencesResponse">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="return" type="r:AccountPreferences" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAccountPreferencesFault" type="c:ExceptionInformation" />
+        
+        <xsd:element name="storeAccountPreferences">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg2" type="r:AccountPreferences" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="storeAccountPreferencesResponse">
+          <xsd:complexType>
+            <xsd:sequence />
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="storeAccountPreferencesFault" type="c:ExceptionInformation" />
+
+        <xsd:element name="isReachable">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="s:OrganizationNumber" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg1" type="r:RecipientId" minOccurs="0" maxOccurs="1000" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="isReachableResponse">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="return" type="r:ReachabilityStatus" minOccurs="0" maxOccurs="unbounded" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="isReachableFault" type="c:ExceptionInformation" />
+
+        <xsd:element name="getAllReachableAccounts">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="s:OrganizationNumber" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg1" type="xsd:int" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllReachableAccountsResponse">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="return" type="r:AccountContainer" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllReachableAccountsFault" type="c:ExceptionInformation" />
+
+        <xsd:element name="getAllRegisteredAccounts">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="xsd:int" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllRegisteredAccountsResponse">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="return" type="r:AccountContainer" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllRegisteredAccountsFault" type="c:ExceptionInformation" />
+        
+    	<xsd:element name="isRegistered">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="unbounded" />
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="isRegisteredResponse">
+    		<xsd:complexType>
+          		<xsd:sequence>
+            		<xsd:element name="return" type="r:AccountStatus" minOccurs="1" maxOccurs="unbounded"/>
+          		</xsd:sequence>
+        	</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="isRegisteredFault" type="c:ExceptionInformation">
+    	</xsd:element>
+    	<xsd:element name="register">
+    		<xsd:complexType>
+    			<xsd:sequence>
+
+    				<xsd:element name="arg0" type="r:AccountRequest"
+    					minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="r:AccountTypes"
+    					minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg2" type="r:EMailAdress"
+    					minOccurs="0" maxOccurs="10">
+    				</xsd:element>
+    				<xsd:element name="arg3" type="c:SignatureData" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="registerResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+
+    				<xsd:element name="return" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="registerFault" type="c:ExceptionInformation">
+
+    	</xsd:element>
+    	<xsd:element name="deregister">
+    		<xsd:complexType>
+    			<xsd:sequence>
+
+    				<xsd:element name="arg0" type="r:AccountRequest"
+    					minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="r:EMailAdress"
+    					minOccurs="0" maxOccurs="10">
+    				</xsd:element>
+    				<xsd:element name="arg2" type="c:SignatureData" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="deregisterResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+
+    				<xsd:element name="return" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="deregisterFault" type="c:ExceptionInformation">
+
+    	</xsd:element>
+    	<xsd:element name="getPendingAccountRequest">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="getPendingAccountRequestResponse">
+    		<xsd:complexType>
+    			<xsd:sequence>
+    				<xsd:element name="return" type="r:PendingAccountRequest" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="getPendingAccountRequestFault" type="c:ExceptionInformation">
+
+    	</xsd:element>
+    	<xsd:element name="deletePendingAccountRequest">
+    		<xsd:complexType>
+    			<xsd:sequence>
+
+    				<xsd:element name="arg0" type="r:RecipientId"
+    					minOccurs="1" maxOccurs="1">
+    				</xsd:element>
+    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="deletePendingAccountRequestResponse">
+			<xsd:complexType>
+    			<xsd:sequence>
+    			</xsd:sequence>
+    		</xsd:complexType>
+    	</xsd:element>
+    	<xsd:element name="deletePendingAccountRequestFault" type="c:ExceptionInformation">
+
+    	</xsd:element>
+    	
+    	<xsd:element name="changeServiceSupplier">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="arg0" type="r:RecipientId" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1" />
+              <xsd:element name="arg2" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="changeServiceSupplierResponse">
+          <xsd:complexType>
+            <xsd:sequence>
+            	<xsd:element name="return" type="r:ServiceSupplier" minOccurs="0" maxOccurs="1"></xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="changeServiceSupplierFault" type="c:ExceptionInformation" />
+        
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAccountPreferencesRequest">
+    <wsdl:part name="parameters" element="recipient:getAccountPreferences" />
+  </wsdl:message>
+  <wsdl:message name="getAccountPreferencesResponse">
+    <wsdl:part name="parameters" element="recipient:getAccountPreferencesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAccountPreferencesFault">
+    <wsdl:part name="fault" element="recipient:getAccountPreferencesFault" />
+  </wsdl:message>
+  <wsdl:message name="storeAccountPreferencesRequest">
+    <wsdl:part name="parameters" element="recipient:storeAccountPreferences" />
+  </wsdl:message>
+  <wsdl:message name="storeAccountPreferencesResponse">
+    <wsdl:part name="parameters" element="recipient:storeAccountPreferencesResponse" />
+  </wsdl:message>
+  <wsdl:message name="storeAccountPreferencesFault">
+    <wsdl:part name="fault" element="recipient:storeAccountPreferencesFault" />
+  </wsdl:message>
+  <wsdl:message name="isReachableRequest">
+    <wsdl:part name="parameters" element="recipient:isReachable" />
+  </wsdl:message>
+  <wsdl:message name="isReachableResponse">
+    <wsdl:part name="parameters" element="recipient:isReachableResponse" />
+  </wsdl:message>
+  <wsdl:message name="isReachableFault">
+    <wsdl:part name="fault" element="recipient:isReachableFault" />
+  </wsdl:message>
+  <wsdl:message name="getAllReachableAccountsRequest">
+    <wsdl:part name="parameters" element="recipient:getAllReachableAccounts" />
+  </wsdl:message>
+  <wsdl:message name="getAllReachableAccountsResponse">
+    <wsdl:part name="parameters" element="recipient:getAllReachableAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAllReachableAccountsFault">
+    <wsdl:part name="fault" element="recipient:getAllReachableAccountsFault" />
+  </wsdl:message>
+  <wsdl:message name="getAllRegisteredAccountsRequest">
+    <wsdl:part name="parameters" element="recipient:getAllRegisteredAccounts" />
+  </wsdl:message>
+  <wsdl:message name="getAllRegisteredAccountsResponse">
+    <wsdl:part name="parameters" element="recipient:getAllRegisteredAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getAllRegisteredAccountsFault">
+    <wsdl:part name="fault" element="recipient:getAllRegisteredAccountsFault" />
+  </wsdl:message>
+  <wsdl:message name="isRegisteredRequest">
+    <wsdl:part element="recipient:isRegistered" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="isRegisteredResponse">
+    <wsdl:part element="recipient:isRegisteredResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="isRegisteredFault">
+  	<wsdl:part name="fault" element="recipient:isRegisteredFault"/>
+  </wsdl:message>
+  <wsdl:message name="registerRequest">
+  	<wsdl:part name="parameters" element="recipient:register"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerResponse">
+  	<wsdl:part name="parameters" element="recipient:registerResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerFault">
+  	<wsdl:part name="fault" element="recipient:registerFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deregisterRequest">
+  	<wsdl:part name="parameters" element="recipient:deregister"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deregisterResponse">
+  	<wsdl:part name="parameters" element="recipient:deregisterResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deregisterFault">
+  	<wsdl:part name="fault" element="recipient:deregisterFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingAccountRequestRequest">
+  	<wsdl:part name="parameters" element="recipient:getPendingAccountRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingAccountRequestResponse">
+  	<wsdl:part name="parameters" element="recipient:getPendingAccountRequestResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPendingAccountRequestFault">
+  	<wsdl:part name="fault" element="recipient:getPendingAccountRequestFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePendingAccountRequestRequest">
+  	<wsdl:part name="parameters" element="recipient:deletePendingAccountRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePendingAccountRequestResponse">
+  	<wsdl:part name="parameters" element="recipient:deletePendingAccountRequestResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePendingAccountRequestFault">
+  	<wsdl:part name="fault" element="recipient:deletePendingAccountRequestFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changeServiceSupplierRequest">
+  	<wsdl:part name="parameters" element="recipient:changeServiceSupplier"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changeServiceSupplierResponse">
+  	<wsdl:part name="parameters" element="recipient:changeServiceSupplierResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changeServiceSupplierFault">
+  	<wsdl:part name="fault" element="recipient:changeServiceSupplierFault"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RecipientPort">
+    <wsdl:operation name="getAccountPreferences">
+		<wsdl:input message="recipient:getAccountPreferencesRequest" />
+		<wsdl:output message="recipient:getAccountPreferencesResponse" />
+		<wsdl:fault name="fault" message="recipient:getAccountPreferencesFault" />
+    </wsdl:operation>
+    <wsdl:operation name="storeAccountPreferences">
+		<wsdl:input message="recipient:storeAccountPreferencesRequest" />
+		<wsdl:output message="recipient:storeAccountPreferencesResponse" />
+		<wsdl:fault name="fault" message="recipient:storeAccountPreferencesFault" />
+    </wsdl:operation>
+    <wsdl:operation name="isReachable">
+		<wsdl:input message="recipient:isReachableRequest" />
+		<wsdl:output message="recipient:isReachableResponse" />
+		<wsdl:fault name="fault" message="recipient:isReachableFault" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllReachableAccounts">
+		<wsdl:input message="recipient:getAllReachableAccountsRequest" />
+		<wsdl:output message="recipient:getAllReachableAccountsResponse" />
+		<wsdl:fault name="fault" message="recipient:getAllReachableAccountsFault" />
+	</wsdl:operation>
+    <wsdl:operation name="getAllRegisteredAccounts">
+		<wsdl:input message="recipient:getAllRegisteredAccountsRequest" />
+		<wsdl:output message="recipient:getAllRegisteredAccountsResponse" />
+		<wsdl:fault name="fault" message="recipient:getAllRegisteredAccountsFault" />
+	</wsdl:operation>
+    <wsdl:operation name="isRegistered">
+		<wsdl:input message="recipient:isRegisteredRequest"/>
+		<wsdl:output message="recipient:isRegisteredResponse"/>
+		<wsdl:fault name="fault" message="recipient:isRegisteredFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="register">
+		<wsdl:input message="recipient:registerRequest"></wsdl:input>
+    	<wsdl:output message="recipient:registerResponse"></wsdl:output>
+        <wsdl:fault name="fault" message="recipient:registerFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="deregister">
+    	<wsdl:input message="recipient:deregisterRequest"></wsdl:input>
+    	<wsdl:output message="recipient:deregisterResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="recipient:deregisterFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="getPendingAccountRequest">
+    	<wsdl:input message="recipient:getPendingAccountRequestRequest"></wsdl:input>
+    	<wsdl:output message="recipient:getPendingAccountRequestResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="recipient:getPendingAccountRequestFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="deletePendingAccountRequest">
+    	<wsdl:input message="recipient:deletePendingAccountRequestRequest"></wsdl:input>
+    	<wsdl:output message="recipient:deletePendingAccountRequestResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="recipient:deletePendingAccountRequestFault"></wsdl:fault>
+        </wsdl:operation>
+    <wsdl:operation name="changeServiceSupplier">
+    	<wsdl:input message="recipient:changeServiceSupplierRequest"></wsdl:input>
+    	<wsdl:output message="recipient:changeServiceSupplierResponse"></wsdl:output>
+            <wsdl:fault name="fault" message="recipient:changeServiceSupplierFault"></wsdl:fault>
+        </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RecipientBinding" type="recipient:RecipientPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAccountPreferences">
+        <soap:operation soapAction="" />
+        <wsdl:input>
+            <soap:body use="literal" />
+        </wsdl:input>
+        <wsdl:output>
+            <soap:body use="literal" />
+        </wsdl:output>
+        <wsdl:fault name="fault">
+            <soap:fault name="fault" use="literal" />
+        </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="storeAccountPreferences">
+        <soap:operation soapAction="" />
+        <wsdl:input>
+            <soap:body use="literal" />
+        </wsdl:input>
+        <wsdl:output>
+            <soap:body use="literal" />
+        </wsdl:output>
+        <wsdl:fault name="fault">
+            <soap:fault name="fault" use="literal" />
+        </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isReachable">
+        <soap:operation soapAction="" />
+        <wsdl:input>
+            <soap:body use="literal" />
+        </wsdl:input>
+        <wsdl:output>
+            <soap:body use="literal" />
+        </wsdl:output>
+        <wsdl:fault name="fault">
+            <soap:fault name="fault" use="literal" />
+        </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllReachableAccounts">
+        <soap:operation soapAction="" />
+        <wsdl:input>
+            <soap:body use="literal" />
+        </wsdl:input>
+        <wsdl:output>
+            <soap:body use="literal" />
+        </wsdl:output>
+        <wsdl:fault name="fault">
+            <soap:fault name="fault" use="literal" />
+        </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllRegisteredAccounts">
+        <soap:operation soapAction="" />
+        <wsdl:input>
+            <soap:body use="literal" />
+        </wsdl:input>
+        <wsdl:output>
+            <soap:body use="literal" />
+        </wsdl:output>
+        <wsdl:fault name="fault">
+            <soap:fault name="fault" use="literal" />
+        </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isRegistered">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+	<wsdl:operation name="register">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+	<wsdl:operation name="deregister">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+	<wsdl:operation name="getPendingAccountRequest">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+	<wsdl:operation name="deletePendingAccountRequest">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+	<wsdl:operation name="changeServiceSupplier">
+      <soap:operation soapAction=""/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+	  <wsdl:fault name="fault">
+	    <soap:fault name="fault" use="literal"/>
+	</wsdl:fault>
+	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Recipient">
+    <wsdl:port binding="recipient:RecipientBinding" name="RecipientPort">
+      <soap:address location="http://minameddelanden.gov.se/Recipient"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

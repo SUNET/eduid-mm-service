@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Consent"
+		elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+        xmlns:authority="http://minameddelanden.gov.se/schema/Authority"
+        xmlns:common="http://minameddelanden.gov.se/schema/Common"
+		xmlns:consent="http://minameddelanden.gov.se/schema/Consent">
+
+	<import schemaLocation="Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common"/>
+    <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"/>
+	<import schemaLocation="Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority"/>
+			
+	<complexType name="ConsentRequest">
+    	<sequence>
+    		<element name="Account" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+			<element name="Name" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="ConsentHolder" type="authority:Person" minOccurs="1" maxOccurs="1" />
+    		<element name="Type" type="consent:ConsentRequestTypes" minOccurs="0" maxOccurs="1" />
+    		<element name="AgreementText" type="string" minOccurs="0" maxOccurs="1" />
+    		<element name="Timestamp" type="date" minOccurs="1" maxOccurs="1" />
+    	</sequence>
+    </complexType>
+	
+	<simpleType name="ConsentRequestTypes">
+    	<restriction base="string">
+    		<enumeration value="Create" />
+    		<enumeration value="Delete" />
+			<enumeration value="Cancel" />
+    	</restriction>
+    </simpleType>
+	
+	<complexType name="Consent">
+    	<sequence>
+    		<element name="Request" type="consent:ConsentRequest" minOccurs="1" maxOccurs="1" />
+    		<element name="SignatureResult" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1" />
+			<element name="Status" type="consent:ConsentStatus" minOccurs="1" maxOccurs="1" />
+    	</sequence>
+    </complexType>
+	
+	<simpleType name="ConsentStatus">
+    	<restriction base="string">
+    		<enumeration value="SigningIncomplete" />
+    		<enumeration value="WaitingForAccept" />
+			<enumeration value="Active" />
+    	</restriction>
+    </simpleType>
+    
+    <complexType name="ConsentAgreement">
+    	<sequence>
+    		<element name="ConsentRequest" type="consent:ConsentRequest" minOccurs="1" maxOccurs="1" />
+    		<element name="Signatures" type="base64Binary" minOccurs="1" maxOccurs="unbounded" />
+    	</sequence>
+    </complexType>
+	
+</schema>

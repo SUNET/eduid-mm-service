@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Reply"
+		elementFormDefault="qualified"
+		xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:msg="http://minameddelanden.gov.se/schema/Message"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:reply="http://minameddelanden.gov.se/schema/Reply"
+		xmlns:sig="http://www.w3.org/2000/09/xmldsig#"
+		xmlns:message="http://minameddelanden.gov.se/schema/Message">
+
+	<import schemaLocation="xmldsig-core-schema.xsd" namespace="http://www.w3.org/2000/09/xmldsig#" />
+	<import schemaLocation="Message.xsd" namespace="http://minameddelanden.gov.se/schema/Message" />
+
+	<simpleType name="ReplyOptions">
+		<restriction base="string">
+			<enumeration value="REQUESTED" />
+			<enumeration value="ACCEPTED" />
+			<enumeration value="NOT_ALLOWED" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="ReplyDelivery">
+		<sequence>
+			<element name="Header" type="message:DeliveryHeader" minOccurs="1" maxOccurs="1" />
+			<element name="ReplyMessage" type="msg:SecureMessage" minOccurs="1" maxOccurs="1" />
+			<element name="ReplyTime" type="date" minOccurs="1" maxOccurs="1" />
+			<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="SealedReplyDelivery">
+		<sequence>
+			<element name="SignedDelivery" type="reply:ReplyDelivery" minOccurs="1" maxOccurs="1" />
+			<element name="Seal" type="msg:Seal" minOccurs="1" maxOccurs="1" />
+			<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+</schema>

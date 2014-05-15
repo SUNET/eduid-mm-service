@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Sender"
+  elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
+  xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient">
+
+  <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
+
+  <simpleType name="OrganizationNumber">
+    <restriction base="string">
+      <length value="12" />
+      <pattern value="16\d{10}" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="Sender">
+    <sequence>
+      <element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+      <element name="Name" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <minLength value="2" />
+            <maxLength value="256" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="Attention" type="string" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+</schema>

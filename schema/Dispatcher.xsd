@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Dispatcher"
+  elementFormDefault="qualified"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:sender="http://minameddelanden.gov.se/schema/Sender">
+
+  <import schemaLocation="Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
+
+  <complexType name="Dispatcher">
+    <sequence>
+      <element name="Id" type="sender:OrganizationNumber" minOccurs="1" maxOccurs="1" />
+      <element name="Name" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <minLength value="2" />
+            <maxLength value="256" />
+          </restriction>
+        </simpleType>
+      </element>
+    </sequence>
+  </complexType>
+
+</schema>

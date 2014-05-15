@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdlauthority="http://minameddelanden.gov.se/Authority"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  name="Authority"
+  targetNamespace="http://minameddelanden.gov.se/Authority">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://minameddelanden.gov.se/Authority"
+      xmlns:tns="http://minameddelanden.gov.se/Authority"
+      xmlns:c="http://minameddelanden.gov.se/schema/Common"
+      xmlns:xsdauthority="http://minameddelanden.gov.se/schema/Authority"
+      xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+      xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
+      xmlns:dispatcher="http://minameddelanden.gov.se/schema/Dispatcher">
+
+      <xsd:import schemaLocation="schema/Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
+      <xsd:import schemaLocation="schema/Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority" />
+      <xsd:import schemaLocation="schema/Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
+      <xsd:import schemaLocation="schema/Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
+      <xsd:import schemaLocation="schema/Dispatcher.xsd" namespace="http://minameddelanden.gov.se/schema/Dispatcher" />
+
+      <xsd:element name="getDispatchers">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getDispatchersResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="dispatcher:Dispatcher" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getDispatchersFault" type="c:ExceptionInformation" />
+      <xsd:element name="getUserAccessRights">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="xsdauthority:UserIdentity" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserAccessRightsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsdauthority:UserAccessRightsResult" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getUserAccessRightsFault" type="c:ExceptionInformation" />
+      <xsd:element name="isSenderAccepted">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="isSenderAcceptedResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="isSenderAcceptedFault" type="c:ExceptionInformation" />
+      <xsd:element name="getSenders">
+        <xsd:complexType>
+          <xsd:sequence />
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getSendersResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="sender:Sender" minOccurs="0" maxOccurs="unbounded" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getSendersFault" type="c:ExceptionInformation" />
+      <xsd:element name="testNewSigner">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="arg1" type="xsdauthority:Person" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="arg2" type="xsdauthority:PersonalNumber" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="arg3" type="xsdauthority:AccountActions" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="testNewSignerResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsdauthority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="testNewSignerFault" type="c:ExceptionInformation">
+      </xsd:element>
+      <xsd:element name="verifyAuthorizedSignatures">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="arg0"
+              type="recipient:RecipientId" minOccurs="1"
+              maxOccurs="1">
+            </xsd:element>
+            <xsd:element name="arg1" type="c:SignatureData"
+              minOccurs="1" maxOccurs="unbounded">
+            </xsd:element>
+            <xsd:element name="arg2" type="xsd:base64Binary"
+              minOccurs="1" maxOccurs="1">
+            </xsd:element>
+            <xsd:element name="arg3"
+              type="xsdauthority:AccountActions" minOccurs="1" maxOccurs="1">
+            </xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyAuthorizedSignaturesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="return" type="xsdauthority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="verifyAuthorizedSignaturesFault" type="c:ExceptionInformation">
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="getDispatchersRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:getDispatchers" />
+  </wsdl:message>
+  <wsdl:message name="getDispatchersResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:getDispatchersResponse" />
+  </wsdl:message>
+  <wsdl:message name="getDispatchersFault">
+    <wsdl:part name="fault" element="wsdlauthority:getDispatchersFault" />
+  </wsdl:message>
+  <wsdl:message name="getUserAccessRightsRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:getUserAccessRights" />
+  </wsdl:message>
+  <wsdl:message name="getUserAccessRightsResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:getUserAccessRightsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getUserAccessRightsFault">
+    <wsdl:part name="fault" element="wsdlauthority:getUserAccessRightsFault" />
+  </wsdl:message>
+  <wsdl:message name="isSenderAcceptedRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:isSenderAccepted" />
+  </wsdl:message>
+  <wsdl:message name="isSenderAcceptedResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:isSenderAcceptedResponse" />
+  </wsdl:message>
+  <wsdl:message name="isSenderAcceptedFault">
+    <wsdl:part name="fault" element="wsdlauthority:isSenderAcceptedFault" />
+  </wsdl:message>
+  <wsdl:message name="getSendersRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:getSenders" />
+  </wsdl:message>
+  <wsdl:message name="getSendersResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:getSendersResponse" />
+  </wsdl:message>
+  <wsdl:message name="getSendersFault">
+    <wsdl:part name="fault" element="wsdlauthority:getSendersFault" />
+  </wsdl:message>
+  <wsdl:message name="testNewSignerRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:testNewSigner" />
+  </wsdl:message>
+  <wsdl:message name="testNewSignerResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:testNewSignerResponse" />
+  </wsdl:message>
+  <wsdl:message name="testNewSignerFault">
+    <wsdl:part name="fault" element="wsdlauthority:testNewSignerFault" />
+  </wsdl:message>
+  <wsdl:message name="verifyAuthorizedSignaturesRequest">
+    <wsdl:part name="parameters" element="wsdlauthority:verifyAuthorizedSignatures" />
+  </wsdl:message>
+  <wsdl:message name="verifyAuthorizedSignaturesResponse">
+    <wsdl:part name="parameters" element="wsdlauthority:verifyAuthorizedSignaturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="verifyAuthorizedSignaturesFault">
+    <wsdl:part name="fault" element="wsdlauthority:verifyAuthorizedSignaturesFault" />
+  </wsdl:message>
+
+  <wsdl:portType name="AuthorityPort">
+    <wsdl:operation name="getDispatchers">
+      <wsdl:input message="wsdlauthority:getDispatchersRequest" />
+      <wsdl:output message="wsdlauthority:getDispatchersResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:getDispatchersFault" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserAccessRights">
+      <wsdl:input message="wsdlauthority:getUserAccessRightsRequest" />
+      <wsdl:output message="wsdlauthority:getUserAccessRightsResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:getUserAccessRightsFault" />
+    </wsdl:operation>
+    <wsdl:operation name="isSenderAccepted">
+      <wsdl:input message="wsdlauthority:isSenderAcceptedRequest" />
+      <wsdl:output message="wsdlauthority:isSenderAcceptedResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:isSenderAcceptedFault" />
+    </wsdl:operation>
+    <wsdl:operation name="getSenders">
+      <wsdl:input message="wsdlauthority:getSendersRequest" />
+      <wsdl:output message="wsdlauthority:getSendersResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:getSendersFault" />
+    </wsdl:operation>
+    <wsdl:operation name="testNewSigner">
+      <wsdl:input message="wsdlauthority:testNewSignerRequest" />
+      <wsdl:output message="wsdlauthority:testNewSignerResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:testNewSignerFault" />
+    </wsdl:operation>
+    <wsdl:operation name="verifyAuthorizedSignatures">
+      <wsdl:input message="wsdlauthority:verifyAuthorizedSignaturesRequest" />
+      <wsdl:output message="wsdlauthority:verifyAuthorizedSignaturesResponse" />
+      <wsdl:fault name="fault" message="wsdlauthority:verifyAuthorizedSignaturesFault" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="AuthorityBinding" type="wsdlauthority:AuthorityPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getDispatchers">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserAccessRights">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isSenderAccepted">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSenders">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testNewSigner">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyAuthorizedSignatures">
+      <soap:operation soapAction="" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="fault">
+        <soap:fault name="fault" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="Authority">
+    <wsdl:port binding="wsdlauthority:AuthorityBinding" name="AuthorityPort">
+      <soap:address location="http://minameddelanden.gov.se/Authority" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://minameddelanden.gov.se/schema/Service"
+        elementFormDefault="qualified"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:service="http://minameddelanden.gov.se/schema/Service"
+		xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient">
+
+	<import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"></import>
+
+	<complexType name="DeliveryResult">
+		<sequence>
+			<element name="TransId" type="string" minOccurs="1"
+				maxOccurs="1">
+			</element>
+			<element name="Status" type="service:DeliveryStatus" minOccurs="1" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+	
+    <complexType name="DeliveryStatus">
+    	<sequence>
+    		<element name="RecipientId" type="recipient:RecipientId"
+    			minOccurs="1" maxOccurs="1">
+    		</element>
+    		<element name="Delivered" type="boolean" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="MessageCount">
+    	<sequence>
+    		<element name="Id" type="recipient:RecipientId"
+    			minOccurs="1" maxOccurs="1">
+    		</element>
+    		<element name="Total" type="int" minOccurs="1"
+    			maxOccurs="1">
+    		</element>
+    		<element name="Unread" type="int" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <simpleType name="Type">
+    	<restriction base="string">
+    		<enumeration value="Account"></enumeration>
+    		<enumeration value="AccountRequest"></enumeration>
+    	</restriction>
+    </simpleType>
+</schema>
