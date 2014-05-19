@@ -1,11 +1,11 @@
 package se.sunet.mm.service;
 
 import org.apache.commons.cli.*;
-import se.sunet.mm.service.server.Server;
+import se.sunet.mm.service.server.EmbeddedServer;
 
 import java.io.File;
 
-public class Run extends Server {
+public class Run extends EmbeddedServer {
 
     private static String configFile = "/opt/eduid/etc/mm-service.properties";
 
@@ -15,7 +15,7 @@ public class Run extends Server {
         Options options = new Options();
         options.addOption("h", "help", false, "This usage information");
         options.addOption("c", "config", true,
-                "Path to configuration file, default /opt/eduid/etc/mm-service.properties" );
+                "Path to configuration file, default /opt/eduid/etc/mm-service.properties");
 
         try {
             CommandLine commandLine = parser.parse(options, args);
@@ -39,7 +39,17 @@ public class Run extends Server {
             printUsage(options);
             System.exit(1);
         }
-        //Run().start(configFile);
+        try {
+            new Run().start(configFile);
+        } catch (IllegalArgumentException e) {
+            System.err.println("Missing configuration in " + configFile + ".");
+            System.err.println(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Failed to start server.");
+        } finally {
+            System.exit(1);
+        }
     }
 
     public static void printUsage(Options options) {
