@@ -133,27 +133,27 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Authority.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Authority.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Authority.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Consent.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Consent.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Consent.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Message.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Message.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Message.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Notification.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Notification.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Notification.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Recipient.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Recipient.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Recipient.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Service.wsdl</wsdl>
-                                    <wsdlLocation>classpath:wsdl/Service.wsdl</wsdlLocation>
+                                    <wsdlLocation>classpath:META-INF/wsdl/Service.wsdl</wsdlLocation>
                                 </wsdlOption>
                             </wsdlOptions>
                         </configuration>
