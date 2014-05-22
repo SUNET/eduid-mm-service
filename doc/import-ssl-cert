@@ -1,0 +1,8 @@
+Self signed cert with no password
+$ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes
+
+Export cert and key to pkcs12
+$ openssl pkcs12 -export -in cert.pem -inkey key.pem -out selfsigned.p12
+
+Import the pkcs12 keystore (combined cert and key) in to a Java keystore
+$ keytool -importkeystore -srckeystore selfsigned.p12 -srcstoretype PKCS12 -destkeystore keystore.jks -deststoretype JKS
