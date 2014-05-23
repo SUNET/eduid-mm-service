@@ -124,7 +124,7 @@ public class UserReachable {
             slf4jLogger.error(e.getMessage());
             throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
-            slf4jLogger.error("Could not return UserReachableResponse", e);
+            slf4jLogger.error("Could not return UserReachable.Response", e);
             throw new RestException(e);
         }
     }
