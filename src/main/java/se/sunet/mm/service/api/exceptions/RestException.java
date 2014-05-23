@@ -16,4 +16,11 @@ public class RestException extends WebApplicationException {
                 .type(MediaType.APPLICATION_JSON)
                 .build());
     }
+
+    public RestException (Exception exception) {
+        super(Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                .entity(new ErrorBean(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), exception.getMessage()).toJson())
+                .type(MediaType.APPLICATION_JSON)
+                .build());
+    }
 }
