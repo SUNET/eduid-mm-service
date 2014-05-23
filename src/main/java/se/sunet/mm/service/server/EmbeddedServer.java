@@ -21,9 +21,13 @@ import java.util.Properties;
 
 public class EmbeddedServer {
 
-    private Server server = new Server();
+    private final Server server = new Server();
 
     public EmbeddedServer() {}
+
+    public Server getServer() {
+        return this.server;
+    }
 
     private Properties getProperties(String configFile) throws IOException {
         Properties prop = new Properties();
@@ -80,7 +84,25 @@ public class EmbeddedServer {
         this.server.addConnector(https);
     }
 
-    public void start(String configFile) throws Exception {
+    private void setupMMClientStores(String keyStorePath, String keyStorePassword, String trustStorePath, String trustStorePassword) {
+        System.clearProperty("javax.net.ssl.keyStore");
+        System.clearProperty("javax.net.ssl.keyStorePassword");
+        System.clearProperty("javax.net.ssl.keyStoreType");
+
+        System.setProperty("javax.net.ssl.keyStore", keyStorePath);
+        System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
+        System.setProperty("javax.net.ssl.keyStoreType", "PKCS12");
+
+        System.setProperty("javax.net.ssl.trustStore", trustStorePath);
+        System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
+        System.setProperty("javax.net.ssl.trustStoreType", "JKS");
+    }
+
+    private void setupSenderInformation(String senderOrganisationNumber) {
+        System.setProperty("se.sunet.mm.service.senderOrganisationNumber", senderOrganisationNumber);
+    }
+
+    public void setup(String configFile) throws Exception {
         // Get configuration
         Properties prop = getProperties(configFile);
         String host = prop.getProperty("host", "localhost");
@@ -89,6 +111,15 @@ public class EmbeddedServer {
         String rootPath = prop.getProperty("apiRootPath", "/*");
         Boolean https = Boolean.parseBoolean(prop.getProperty("https", "false"));
         Boolean basicAuth = Boolean.parseBoolean(prop.getProperty("basicAuth", "false"));
+
+        // Set up configuration for mmclient services
+        String mmKeyStorePath = prop.getProperty("mmKeyStorePath");
+        String mmKeyStorePassword = prop.getProperty("mmKeyStorePassword");
+        String mmTrustStorePath = prop.getProperty("mmTrustStorePath");
+        String mmTrustStorePassword = prop.getProperty("mmTrustStorePassword");
+        setupMMClientStores(mmKeyStorePath, mmKeyStorePassword, mmTrustStorePath, mmTrustStorePassword);
+        String senderOrganisationNumber = prop.getProperty("senderOrganisationNumber");
+        setupSenderInformation(senderOrganisationNumber);
 
         // Get servlet context handler
         ServletContextHandler servletContext = getServletContext(packagesLocation, rootPath);
@@ -110,19 +141,23 @@ public class EmbeddedServer {
             http.setPort(port);
             this.server.addConnector(http);
         } else {
-            String keyStorePath = prop.getProperty("keyStorePath");
-            String keyStorePassword = prop.getProperty("keyStorePassword");
-            String keyManagerPassword = prop.getProperty("keyManagerPassword");
-            SslContextFactory sslContextFactory = getSslContextFactory(keyStorePath, keyStorePassword, keyManagerPassword);
+            String jettyKeyStorePath = prop.getProperty("jettyKeyStorePath");
+            String jettyKeyStorePassword = prop.getProperty("jettyKeyStorePassword");
+            String jettyKeyManagerPassword = prop.getProperty("jettyKeyManagerPassword");
+            SslContextFactory sslContextFactory = getSslContextFactory(jettyKeyStorePath, jettyKeyStorePassword, jettyKeyManagerPassword);
             configureSslServer(host, port, sslContextFactory);
         }
+    }
 
-        // Start server
-        server.start();
-        server.join();
+    public void start() throws Exception {
+        this.server.start();
+    }
+
+    public void join() throws Exception {
+        this.server.join();
     }
 
     public void stop() throws Exception {
-        server.stop();
+        this.server.stop();
     }
 }

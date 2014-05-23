@@ -1,19 +1,20 @@
 package se.sunet.mm.service.api;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.gov.minameddelanden.schema.recipient.ReachabilityStatus;
 import se.sunet.mm.service.api.exceptions.RestException;
+import se.sunet.mm.service.mmclient.RecipientService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 
 /**
  * Created by lundberg on 2014-05-21.
  */
-
 
 @Path("/user/reachable")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,34 +22,42 @@ public class UserReachable {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(UserReachable.class);
     private final Gson gson = new Gson();
+    private final RecipientService service = new RecipientService(System.getProperty("se.sunet.mm.service.senderOrganisationNumber"));
 
-    public static class UserReachableRequest {
-        private Integer identity_number;
+    public static class Request {
+        private String identity_number;
 
-        public UserReachableRequest(Integer identity_number) {
+        public Request(String identity_number) {
             this.identity_number = identity_number;
         }
 
-        public Integer getIdentityNumber() {
+        public String getIdentityNumber() {
             return identity_number;
         }
 
         public void validate() throws WebApplicationException {
             if (this.identity_number == null) {
-                throw new RestException(Response.Status.BAD_REQUEST, "Missing \"identity_number\": <integer>");
+                throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, "Missing \"identity_number\": \"<string>\"");
             }
         }
     }
 
-    public static class UserReachableResponse {
+    public static class Response {
 
         private Boolean SenderAccepted;
         private AccountStatus AccountStatus = new AccountStatus();
 
-        public UserReachableResponse (Boolean senderAccepted, String accountStatusType, String serviceAddress) {
+        public Response(Boolean senderAccepted, String accountStatusType, String serviceAddress) {
             this.setSenderAccepted(senderAccepted);
             this.AccountStatus.setType(accountStatusType);
             this.AccountStatus.ServiceSupplier.setServiceAddress(serviceAddress);
+        }
+
+        public Response(ReachabilityStatus status) {
+            this.setSenderAccepted(status.isSenderAccepted());
+            this.AccountStatus.setType(status.getAccountStatus().getType().value());
+            this.AccountStatus.ServiceSupplier.setServiceAddress(
+                    status.getAccountStatus().getServiceSupplier().getServiceAdress());
         }
 
         public static class AccountStatus {
@@ -61,30 +70,62 @@ public class UserReachable {
                 public void setServiceAddress(String serviceAddress) {
                     ServiceAddress = serviceAddress;
                 }
+
+                public String getServiceAddress() {
+                    return ServiceAddress;
+                }
             }
 
             public void setType(String type) {
                 Type = type;
+            }
+
+            public String getType() {
+                return Type;
+            }
+
+            public Response.AccountStatus.ServiceSupplier getServiceSupplier() {
+                return ServiceSupplier;
             }
         }
 
         public void setSenderAccepted(Boolean senderAccepted) {
             SenderAccepted = senderAccepted;
         }
+
+        public Boolean getSenderAccepted() {
+            return SenderAccepted;
+        }
+
+        public Response.AccountStatus getAccountStatus() {
+            return AccountStatus;
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public String isReachable(String json) {
-        UserReachableRequest request = gson.fromJson(json, UserReachableRequest.class);
-        request.validate();
-        try  {
-            //TODO: Get and instantiate a UserReachableResponse from MM service
-            UserReachableResponse response = new UserReachableResponse(Boolean.TRUE, "Secure", "mailbox_url");
+        try {
+            Request request = gson.fromJson(json, Request.class);
+            slf4jLogger.info("API request received");
+            request.validate();
+            ReachabilityStatus status = service.isReachable(request.getIdentityNumber());
+            slf4jLogger.info("mmclient response received");
+            Response response = new Response(status);
+            slf4jLogger.info("API response created");
             return gson.toJson(response);
+        } catch (RestException e) {
+            throw e;
+        } catch (NullPointerException e) {
+            String message = "Received empty POST data";
+            slf4jLogger.error(message, e);
+            throw new RestException(javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR, message);
+        } catch (JsonSyntaxException e) {
+            slf4jLogger.error(e.getMessage());
+            throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, e.getMessage());
         } catch (Exception e) {
             slf4jLogger.error("Could not return UserReachableResponse", e);
-            throw new RestException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+            throw new RestException(e);
         }
     }
 }

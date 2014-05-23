@@ -4,6 +4,7 @@ import org.apache.commons.cli.*;
 import se.sunet.mm.service.server.EmbeddedServer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Run extends EmbeddedServer {
 
@@ -40,14 +41,21 @@ public class Run extends EmbeddedServer {
             System.exit(1);
         }
         try {
-            new Run().start(configFile);
+            // Start server
+            EmbeddedServer server =  new Run();
+            server.setup(configFile);
+            server.start();
+            server.join();
         } catch (IllegalArgumentException e) {
             System.err.println("Missing configuration in " + configFile + ".");
             System.err.println(e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.err.println("Missing file:");
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Failed to start server.");
         } finally {
+            System.err.println("Failed to start server.");
             System.exit(1);
         }
     }
