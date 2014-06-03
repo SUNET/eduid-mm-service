@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.sunet.mm.service.api.exceptions.RestException;
+import se.sunet.mm.service.mmclient.RecipientService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,7 @@ public class Message {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(Message.class);
     private final Gson gson = new Gson();
+    private final RecipientService service = new RecipientService(System.getProperty("se.sunet.mm.service.senderOrganisationNumber"));
 
     public class SendRequest {
 
@@ -80,6 +82,10 @@ public class Message {
         }
     }
 
+    public class SendResponse {
+        //TODO:
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/send")
@@ -88,7 +94,7 @@ public class Message {
             SendRequest request = gson.fromJson(json, SendRequest.class);
             slf4jLogger.info("API send message request received");
             request.validate();
-            // TODO: Send message with mmclient and return message ID
+            // TODO: Send message with mmclient and return message ID with SendResponse
             return gson.toJson(request);
         } catch (RestException e) {
             throw e;
@@ -104,5 +110,51 @@ public class Message {
             throw new RestException(e);
         }
 
+    }
+
+    public class DeliveredRequest {
+        private String message_id;
+
+        public DeliveredRequest(String message_id) {
+            this.message_id = message_id;
+        }
+
+        public String getMessageId() {
+            return message_id;
+        }
+
+        public void validate() throws WebApplicationException {
+            if (this.message_id == null) {
+                throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, "Missing \"message_id\": \"<string>\"");
+            }
+        }
+    }
+
+    public class DeliveredResponse {
+        //TODO:
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/delivered")
+    public String delivered(String json) {
+        try {
+            slf4jLogger.info("API message delivered request received");
+            DeliveredRequest request = gson.fromJson(json, DeliveredRequest.class);
+            // TODO: Check if message is delivered with mmclient and return something with DeliveredResponse
+            return gson.toJson(request);
+        } catch (RestException e) {
+            throw e;
+        } catch (NullPointerException e) {
+            String message = "Received empty POST data";
+            slf4jLogger.error(message, e);
+            throw new RestException(javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR, message);
+        } catch (JsonSyntaxException e) {
+            slf4jLogger.error(e.getMessage());
+            throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            slf4jLogger.error("Could not return Message.SendResponse", e);
+            throw new RestException(e);
+        }
     }
 }
