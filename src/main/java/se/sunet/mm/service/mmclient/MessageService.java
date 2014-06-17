@@ -54,6 +54,7 @@ public class MessageService extends ClientBase {
         MessageBody body = new MessageBody();
         body.setBody(message.getBytes("UTF-8"));
         body.setContentType(contentType);
+        secureMessage.setBody(body);
         secureDelivery.getMessage().add(secureMessage);
 
         SignedDelivery signedDelivery = createSignedDelivery(secureDelivery);
