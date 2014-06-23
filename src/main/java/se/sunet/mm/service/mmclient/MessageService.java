@@ -25,14 +25,28 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class MessageService extends ClientBase {
-    public static final String ORGNR = "162021003898";
-    public static final String SENDER_PKCS8_KEY_PATH = "classpath:/Kommun_B.p8";
-    public static final String SENDER_PEM_CERT_PATH = "classpath:/Kommun_B.crt";
+    private String senderName;
+    private String senderOrganisationNumber;
+    private String senderSupportText;
+    private String senderSupportEmailAddress;
+    private String senderSupportPhoneNumber;
+    private String senderSupportURL;
+    private String senderPKCS8KeyPath;
+    private String senderPEMCertPath;
 
     private static String serviceEndpoint = null;
 
-    public MessageService() {
-
+    public MessageService(String senderOrganisationNumber, String senderName, String senderSupportText,
+                          String senderSupportEmailAddress, String senderSupportPhoneNumber, String senderSupportURL,
+                          String senderPKCS8KeyPath, String senderPEMCertPath) {
+        this.senderOrganisationNumber = senderOrganisationNumber;
+        this.senderName = senderName;
+        this.senderSupportText = senderSupportText;
+        this.senderSupportEmailAddress = senderSupportEmailAddress;
+        this.senderSupportPhoneNumber = senderSupportPhoneNumber;
+        this.senderSupportURL = senderSupportURL;
+        this.senderPKCS8KeyPath = senderPKCS8KeyPath;
+        this.senderPEMCertPath = senderPEMCertPath;
     }
 
     public DeliveryResult sendSecureMessage(String recipient,
@@ -60,22 +74,18 @@ public class MessageService extends ClientBase {
         SignedDelivery signedDelivery = createSignedDelivery(secureDelivery);
         SealedDelivery sealedDelivery = sealSignedDelivery(signedDelivery);
 
-
-//        RecipientService recipientService = new RecipientService(System
-  //              .getProperty("se.sunet.mm.service.senderOrganisationNumber"));
-        RecipientService recipientService = new RecipientService(ORGNR);
+        RecipientService recipientService = new RecipientService(senderOrganisationNumber);
         String url = recipientService.getServiceAddress(recipient);
         ServicePort servicePort = getPort(ServicePort.class, Service.class, url);
-        DeliveryResult result = servicePort.deliverSecure(sealedDelivery);
 
-        return result;
+        return servicePort.deliverSecure(sealedDelivery);
     }
 
     private DeliveryHeader createDeliveryHeader(String recipient) {
         DeliveryHeader header  = new DeliveryHeader();
         Sender sender = new Sender();
-        sender.setId(ORGNR);
-        sender.setName("Kommun B");
+        sender.setId(senderOrganisationNumber);
+        sender.setName(senderName);
         header.setSender(sender);
         header.getRecipient().add(recipient);
 
@@ -84,10 +94,10 @@ public class MessageService extends ClientBase {
 
     private SupportInfo createSupportInfo() {
         SupportInfo supportInfo = new SupportInfo();
-        supportInfo.setText("Dummy text");
-        supportInfo.setEmailAdress("info@kommun_b.se");
-        supportInfo.setPhoneNumber("08-121212121212");
-        supportInfo.setURL("http://www.kommun_b.se/");
+        supportInfo.setText(senderSupportText);
+        supportInfo.setEmailAdress(senderSupportEmailAddress);
+        supportInfo.setPhoneNumber(senderSupportPhoneNumber);
+        supportInfo.setURL(senderSupportURL);
 
         return supportInfo;
     }
@@ -131,9 +141,9 @@ public class MessageService extends ClientBase {
     }
 
     private X509CertificateWithPrivateKey getKeyPair() throws URISyntaxException, CertificateException {
-        URI certUri = new URI(SENDER_PEM_CERT_PATH);
+        URI certUri = new URI(senderPEMCertPath);
         X509Certificate cert = CertificateUtils.readCertificateFromUrl(certUri);
-        URI keyUri = new URI(SENDER_PKCS8_KEY_PATH);
+        URI keyUri = new URI(senderPKCS8KeyPath);
         PrivateKey key = CertificateUtils.readKey(keyUri);
 
         return new X509CertificateWithPrivateKey(cert, key);

@@ -13,6 +13,13 @@ public class SetupCommon  {
     private static final String TRUST_KEYSTORE_PASSWORD = "trustedcerts";
     public static final String TEST_PERSON_NIN = "192705178354";
     public static final String SENDER_ORG_NR = "162021003898";
+    public static final String SENDER_NAME = "Kommun B";
+    public static final String SENDER_TEXT = "Dummy text";
+    public static final String SENDER_MAIL = "info@kommun_b.se";
+    public static final String SENDER_PHONE = "08-121212121212";
+    public static final String SENDER_URL = "http://www.kommun_b.se/";
+    public static final String SENDER_PKCS8_KEY_PATH = "file:/home/lundberg/projects/eduid-mm-service/certs/Kommun_B.p8";
+    public static final String SENDER_PEM_CERT_PATH = "file:/home/lundberg/projects/eduid-mm-service/certs/Kommun_B.crt";
 
 
     @BeforeTest

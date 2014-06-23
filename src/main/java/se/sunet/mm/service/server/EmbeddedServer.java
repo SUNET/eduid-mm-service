@@ -98,8 +98,17 @@ public class EmbeddedServer {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
     }
 
-    private void setupSenderInformation(String senderOrganisationNumber) {
+    private void setupSenderInformation(String senderOrganisationNumber, String senderName, String senderSupportText,
+                                        String senderSupportEmailAddress, String senderSupportPhoneNumber,
+                                        String senderSupportURL, String senderPKCS8KeyPath, String senderPEMCertPath) {
         System.setProperty("se.sunet.mm.service.senderOrganisationNumber", senderOrganisationNumber);
+        System.setProperty("se.sunet.mm.service.senderName", senderName);
+        System.setProperty("se.sunet.mm.service.senderSupportText", senderSupportText);
+        System.setProperty("se.sunet.mm.service.senderSupportEmailAddress", senderSupportEmailAddress);
+        System.setProperty("se.sunet.mm.service.senderSupportPhoneNumber", senderSupportPhoneNumber);
+        System.setProperty("se.sunet.mm.service.senderSupportURL", senderSupportURL);
+        System.setProperty("se.sunet.mm.service.senderPKCS8KeyPath", senderPKCS8KeyPath);
+        System.setProperty("se.sunet.mm.service.senderPEMCertPath", senderPEMCertPath);
     }
 
     public void setup(String configFile) throws Exception {
@@ -118,8 +127,17 @@ public class EmbeddedServer {
         String mmTrustStorePath = prop.getProperty("mmTrustStorePath");
         String mmTrustStorePassword = prop.getProperty("mmTrustStorePassword");
         setupMMClientStores(mmKeyStorePath, mmKeyStorePassword, mmTrustStorePath, mmTrustStorePassword);
+        // Sender configuration
         String senderOrganisationNumber = prop.getProperty("senderOrganisationNumber");
-        setupSenderInformation(senderOrganisationNumber);
+        String senderName = prop.getProperty("senderName");
+        String senderSupportText = prop.getProperty("senderSupportText");
+        String senderSupportEmailAddress = prop.getProperty("senderSupportEmailAddress");
+        String senderSupportPhoneNumber = prop.getProperty("senderSupportPhoneNumber");
+        String senderSupportURL = prop.getProperty("senderSupportURL");
+        String senderPKCS8KeyPath = prop.getProperty("senderPKCS8KeyPath");
+        String senderPEMCertPath = prop.getProperty("senderPEMCertPath");
+        setupSenderInformation(senderOrganisationNumber, senderName, senderSupportText, senderSupportEmailAddress,
+                senderSupportPhoneNumber, senderSupportURL, senderPKCS8KeyPath, senderPEMCertPath);
 
         // Get servlet context handler
         ServletContextHandler servletContext = getServletContext(packagesLocation, rootPath);
