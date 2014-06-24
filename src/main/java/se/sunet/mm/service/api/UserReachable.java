@@ -47,25 +47,30 @@ public class UserReachable {
         private Boolean SenderAccepted;
         private AccountStatus AccountStatus = new AccountStatus();
 
-        public Response(Boolean senderAccepted, String accountStatusType, String serviceAddress) {
+        public Response(Boolean senderAccepted, String recipient, String accountStatusType, String serviceAddress) {
             this.setSenderAccepted(senderAccepted);
+            this.AccountStatus.setRecipient(recipient);
             this.AccountStatus.setType(accountStatusType);
             this.AccountStatus.ServiceSupplier.setServiceAddress(serviceAddress);
         }
 
         public Response(ReachabilityStatus status) {
             this.setSenderAccepted(status.isSenderAccepted());
+            this.AccountStatus.setRecipient(status.getAccountStatus().getRecipientId());
             this.AccountStatus.setType(status.getAccountStatus().getType().value());
-            this.AccountStatus.ServiceSupplier.setServiceAddress(
+            if (status.getAccountStatus().getServiceSupplier() != null) {
+                this.AccountStatus.ServiceSupplier.setServiceAddress(
                     status.getAccountStatus().getServiceSupplier().getServiceAdress());
+            }
         }
 
         public static class AccountStatus {
+            private String recipient;
             private String Type;
             private ServiceSupplier ServiceSupplier = new ServiceSupplier();
 
             public static class ServiceSupplier {
-                private String ServiceAddress;
+                private String ServiceAddress = "";
 
                 public void setServiceAddress(String serviceAddress) {
                     ServiceAddress = serviceAddress;
@@ -82,6 +87,14 @@ public class UserReachable {
 
             public String getType() {
                 return Type;
+            }
+
+            public String getRecipient() {
+                return recipient;
+            }
+
+            public void setRecipient(String recipient) {
+                this.recipient = recipient;
             }
 
             public Response.AccountStatus.ServiceSupplier getServiceSupplier() {

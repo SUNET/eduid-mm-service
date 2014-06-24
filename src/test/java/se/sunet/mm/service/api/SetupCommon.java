@@ -12,6 +12,7 @@ public class SetupCommon {
     public EmbeddedServer embeddedServer = new EmbeddedServer();
     public String configFile = "./src/test/resources/mm-service.properties";
     public static final String TEST_PERSON_NIN = "192705178354";
+    public static final String TEST_PERSON_FAILING_NIN = "191212121212";
 
     @BeforeTest
     public void setUp() throws Exception {
