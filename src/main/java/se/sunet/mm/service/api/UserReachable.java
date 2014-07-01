@@ -65,7 +65,7 @@ public class UserReachable {
         }
 
         public static class AccountStatus {
-            private String recipient;
+            private String RecipientId;
             private String Type;
             private ServiceSupplier ServiceSupplier = new ServiceSupplier();
 
@@ -90,11 +90,11 @@ public class UserReachable {
             }
 
             public String getRecipient() {
-                return recipient;
+                return RecipientId;
             }
 
             public void setRecipient(String recipient) {
-                this.recipient = recipient;
+                this.RecipientId = recipient;
             }
 
             public Response.AccountStatus.ServiceSupplier getServiceSupplier() {
