@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import se.gov.minameddelanden.schema.service.DeliveryResult;
 import se.sunet.mm.service.api.exceptions.RestException;
-import se.sunet.mm.service.mmclient.RecipientService;
+import se.sunet.mm.service.mmclient.ServiceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +22,16 @@ public class Message {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(Message.class);
     private final Gson gson = new Gson();
-    private final RecipientService service = new RecipientService(System.getProperty("se.sunet.mm.service.senderOrganisationNumber"));
+    private final ServiceService service = new ServiceService(
+            System.getProperty("se.sunet.mm.service.senderOrganisationNumber"),
+            System.getProperty("se.sunet.mm.service.senderName"),
+            System.getProperty("se.sunet.mm.service.senderSupportText"),
+            System.getProperty("se.sunet.mm.service.senderSupportEmailAddress"),
+            System.getProperty("se.sunet.mm.service.senderSupportPhoneNumber"),
+            System.getProperty("se.sunet.mm.service.senderSupportURL"),
+            System.getProperty("se.sunet.mm.service.senderPKCS8KeyPath"),
+            System.getProperty("se.sunet.mm.service.senderPEMCertPath")
+    );
 
     public class SendRequest {
 
@@ -83,7 +93,27 @@ public class Message {
     }
 
     public class SendResponse {
-        //TODO:
+        String recipient;
+        String transaction_id;
+        Boolean delivered;
+
+        public SendResponse(String recipient, String transaction_id, Boolean delivered) {
+            this.recipient = recipient;
+            this.transaction_id = transaction_id;
+            this.delivered = delivered;
+        }
+
+        public String getRecipient() {
+            return recipient;
+        }
+
+        public String getTransactionId() {
+            return transaction_id;
+        }
+
+        public Boolean getDelivered() {
+            return delivered;
+        }
     }
 
     @POST
@@ -94,8 +124,10 @@ public class Message {
             SendRequest request = gson.fromJson(json, SendRequest.class);
             slf4jLogger.info("API send message request received");
             request.validate();
-            // TODO: Send message with mmclient and return message ID with SendResponse
-            return gson.toJson(request);
+            DeliveryResult result = service.sendSecureMessage(request.getRecipient(), request.getSubject(), request.getMessage(),
+                    request.getLanguage(), request.getContentType());
+            SendResponse response = new SendResponse(result.getStatus().get(0).getRecipientId(), result.getTransId(), result.getStatus().get(0).isDelivered());
+            return gson.toJson(response);
         } catch (RestException e) {
             throw e;
         } catch (NullPointerException e) {
@@ -112,20 +144,22 @@ public class Message {
 
     }
 
+    /*
+    // TODO: Implement delivery check in mmclient
     public class DeliveredRequest {
-        private String message_id;
+        private String transaction_id;
 
-        public DeliveredRequest(String message_id) {
-            this.message_id = message_id;
+        public DeliveredRequest(String transaction_id) {
+            this.transaction_id = transaction_id;
         }
 
-        public String getMessageId() {
-            return message_id;
+        public String getTransactionId() {
+            return transaction_id;
         }
 
         public void validate() throws WebApplicationException {
-            if (this.message_id == null) {
-                throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, "Missing \"message_id\": \"<string>\"");
+            if (this.transaction_id == null) {
+                throw new RestException(javax.ws.rs.core.Response.Status.BAD_REQUEST, "Missing \"transaction_id\": \"<string>\"");
             }
         }
     }
@@ -141,6 +175,7 @@ public class Message {
         try {
             slf4jLogger.info("API message delivered request received");
             DeliveredRequest request = gson.fromJson(json, DeliveredRequest.class);
+            request.validate();
             // TODO: Check if message is delivered with mmclient and return something with DeliveredResponse
             return gson.toJson(request);
         } catch (RestException e) {
@@ -157,4 +192,5 @@ public class Message {
             throw new RestException(e);
         }
     }
+    */
 }

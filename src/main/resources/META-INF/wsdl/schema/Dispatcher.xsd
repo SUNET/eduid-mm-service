@@ -17,6 +17,7 @@
           </restriction>
         </simpleType>
       </element>
+      <element name="Senders" type="sender:OrganizationNumber"  minOccurs="0" maxOccurs="unbounded" />
     </sequence>
   </complexType>
 
