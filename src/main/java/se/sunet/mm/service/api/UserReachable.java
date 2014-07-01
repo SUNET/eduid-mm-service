@@ -120,12 +120,12 @@ public class UserReachable {
     public String isReachable(String json) {
         try {
             Request request = gson.fromJson(json, Request.class);
-            slf4jLogger.info("API request received");
+            slf4jLogger.info("API user reachable request received");
             request.validate();
             ReachabilityStatus status = service.isReachable(request.getIdentityNumber());
             slf4jLogger.info("mmclient response received");
             Response response = new Response(status);
-            slf4jLogger.info("API response created");
+            slf4jLogger.info("API user reachable response created");
             return gson.toJson(response);
         } catch (RestException e) {
             throw e;
