@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.gov.minameddelanden.schema.service.DeliveryResult;
 import se.sunet.mm.service.api.exceptions.RestException;
-import se.sunet.mm.service.mmclient.MessageService;
+import se.sunet.mm.service.mmclient.ServiceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +22,7 @@ public class Message {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(Message.class);
     private final Gson gson = new Gson();
-    private final MessageService service = new MessageService(
+    private final ServiceService service = new ServiceService(
             System.getProperty("se.sunet.mm.service.senderOrganisationNumber"),
             System.getProperty("se.sunet.mm.service.senderName"),
             System.getProperty("se.sunet.mm.service.senderSupportText"),
@@ -144,6 +144,8 @@ public class Message {
 
     }
 
+    /*
+    // TODO: Implement delivery check in mmclient
     public class DeliveredRequest {
         private String transaction_id;
 
@@ -190,4 +192,5 @@ public class Message {
             throw new RestException(e);
         }
     }
+    */
 }
