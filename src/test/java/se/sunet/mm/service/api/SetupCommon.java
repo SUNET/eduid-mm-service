@@ -1,7 +1,7 @@
 package se.sunet.mm.service.api;
 
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import se.sunet.mm.service.server.EmbeddedServer;
 
 /**
@@ -14,12 +14,12 @@ public class SetupCommon {
     public static final String TEST_PERSON_NIN = "192705178354";
     public static final String TEST_PERSON_FAILING_NIN = "191212121212";
 
-    @BeforeTest
+    @BeforeClass
     public void setUp() throws Exception {
         setupServer();
     }
 
-    @AfterTest
+    @AfterClass
     public void tearDown() throws Exception {
         tearDownServer();
     }

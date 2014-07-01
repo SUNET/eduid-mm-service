@@ -17,7 +17,7 @@ import static org.testng.Assert.assertTrue;
 public class MessageServiceTest extends SetupCommon {
     @Test
     public void testSendSecureMessage() throws Exception {
-        MessageService messageService = new MessageService(SENDER_ORG_NR, SENDER_NAME, SENDER_TEXT, SENDER_MAIL,
+        ServiceService messageService = new ServiceService(SENDER_ORG_NR, SENDER_NAME, SENDER_TEXT, SENDER_MAIL,
                 SENDER_PHONE, SENDER_URL, SENDER_PKCS8_KEY_PATH, SENDER_PEM_CERT_PATH);
 
         DeliveryResult result = messageService.sendSecureMessage(TEST_PERSON_NIN, "Test-dela-ut", "Dummy text", "svSE", "text/plain");

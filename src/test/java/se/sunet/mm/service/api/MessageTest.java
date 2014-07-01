@@ -66,7 +66,7 @@ public class MessageTest extends SetupCommon {
         Message.SendResponse jsonResponse = gson.fromJson(response.readEntity(String.class), Message.SendResponse.class);
 
         assertFalse(jsonResponse.getDelivered());
-        assertEquals(jsonResponse.getRecipient(), TEST_PERSON_NIN);
+        assertEquals(jsonResponse.getRecipient(), TEST_PERSON_FAILING_NIN);
         assertNotNull(jsonResponse.getTransactionId());
     }
 
