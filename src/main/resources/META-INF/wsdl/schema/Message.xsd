@@ -1,153 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema targetNamespace="http://minameddelanden.gov.se/schema/Message"
-        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
-        xmlns:msg="http://minameddelanden.gov.se/schema/Message"
-        xmlns:notification="http://minameddelanden.gov.se/schema/Notification"
-        xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
-        xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
-        xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
-        xmlns:reply="http://minameddelanden.gov.se/schema/Reply"
-        xmlns:sig="http://www.w3.org/2000/09/xmldsig#">
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:msg="http://minameddelanden.gov.se/schema/Message"
+	xmlns:notification="http://minameddelanden.gov.se/schema/Notification"
+	xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+	xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
+	xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
+	xmlns:reply="http://minameddelanden.gov.se/schema/Reply" xmlns:sig="http://www.w3.org/2000/09/xmldsig#">
 
-    <import schemaLocation="Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
-	<import schemaLocation="Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
-    <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
-	<import schemaLocation="Notification.xsd" namespace="http://minameddelanden.gov.se/schema/Notification" />
+	<import schemaLocation="Common.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Common" />
+	<import schemaLocation="Recipient.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Recipient" />
+	<import schemaLocation="Notification.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Notification" />
+	<import schemaLocation="Sender.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Sender" />
 	<import schemaLocation="xmldsig-core-schema.xsd" namespace="http://www.w3.org/2000/09/xmldsig#" />
- 	<import schemaLocation="Receipt.xsd" namespace="http://minameddelanden.gov.se/schema/Receipt" />
- 	<import schemaLocation="Reply.xsd" namespace="http://minameddelanden.gov.se/schema/Reply" />
+	<import schemaLocation="Receipt.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Receipt" />
+	<import schemaLocation="Reply.xsd"
+		namespace="http://minameddelanden.gov.se/schema/Reply" />
 
-    <complexType name="DistributionStatus">
-    	<sequence>
-    		<element name="RecipientId" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-    		<element name="Type" type="msg:DistributionTypes" minOccurs="1" maxOccurs="1" />
-    		<element name="DeliveryStatus" type="msg:DeliveryStatus" minOccurs="0" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+	<complexType name="DistributionStatus">
+		<sequence>
+			<element name="RecipientId" type="recipient:RecipientId"
+				minOccurs="1" maxOccurs="1" />
+			<element name="Type" type="msg:DistributionTypes" minOccurs="1"
+				maxOccurs="1" />
+			<element name="DeliveryStatus" type="msg:DeliveryStatus"
+				minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
 
-    <complexType name="MessageStatus">
-    	<sequence>
-    		<element name="RecipientId" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-    		<element name="MessagetypeId" type="string" minOccurs="0" maxOccurs="1" />
-    		<element name="Status" type="msg:DistributionTypes" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+	<complexType name="MessageStatus">
+		<sequence>
+			<element name="RecipientId" type="recipient:RecipientId"
+				minOccurs="1" maxOccurs="1" />
+			<element name="MessagetypeId" type="string" minOccurs="0"
+				maxOccurs="1" />
+			<element name="Status" type="msg:DistributionTypes"
+				minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
 
-    <simpleType name="DistributionTypes">
-    	<restriction base="string">
-    		<enumeration value="Digital"></enumeration>
-    		<enumeration value="Paper"></enumeration>
-    		<enumeration value="Not"></enumeration>
-    	</restriction>
-    </simpleType>
+	<simpleType name="DistributionTypes">
+		<restriction base="string">
+			<enumeration value="Digital" />
+			<enumeration value="Paper" />
+			<enumeration value="Not" />
+		</restriction>
+	</simpleType>
 
-    <complexType name="Message" />
+	<complexType name="Message" />
 
-    <complexType name="DeliveryHeader">
-    	<sequence>
-    		<element name="Sender" type="sender:Sender" minOccurs="1" maxOccurs="1" />
-    		<element name="Recipient" type="recipient:RecipientId" minOccurs="1" maxOccurs="unbounded" />
-    		<element name="Reference" type="string" minOccurs="0" maxOccurs="1" />
-    		<element name="CorrelationId" type="string" minOccurs="0" maxOccurs="1" />
-			<element name="Attention" type="string" minOccurs="0" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+	<complexType name="DeliveryHeader">
+		<sequence>
+			<element name="Sender" type="sender:Sender" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Recipient" type="recipient:RecipientId"
+				minOccurs="1" maxOccurs="1000" />
+			<element name="Reference" type="string" minOccurs="0"
+				maxOccurs="1" />
+			<element name="CorrelationId" type="string" minOccurs="0"
+				maxOccurs="1" />
+			<element name="Attention" type="string" minOccurs="0"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
 
-    <complexType name="SecureDelivery">
-    	<sequence>
-    		<element name="Header" type="msg:DeliveryHeader" minOccurs="1" maxOccurs="1" />
-    		<element name="Message" type="msg:SecureMessage" minOccurs="1" maxOccurs="unbounded" />
-    	</sequence>
-    </complexType>
+	<complexType name="SecureDelivery">
+		<sequence>
+			<element name="Header" type="msg:DeliveryHeader" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Message" type="msg:SecureMessage" minOccurs="1"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 
-    <complexType name="SimpleDelivery">
-    	<sequence>
-    		<element name="Header" type="msg:DeliveryHeader" minOccurs="1" maxOccurs="1" />
-    		<element name="Message" type="msg:SimpleMessage" minOccurs="1" maxOccurs="unbounded" />
-    	</sequence>
-    </complexType>
-    
-    <complexType name="SignedDelivery">
-    	<sequence>
-    		<element name="Delivery" type="msg:SecureDelivery" minOccurs="1" maxOccurs="1" />
-    		<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
-    
-    <complexType name="ForwardDelivery">
-    	<sequence>
-    		<element name="Header" type="msg:DeliveryHeader"
-    			minOccurs="1" maxOccurs="1" />
-    		<element name="Message" type="msg:ForwardMessage" minOccurs="1" maxOccurs="1"/>
-    		<element name="OrginalDelivery" type="msg:SealedDelivery"
-    			minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
-    
-    <complexType name="SealedDelivery">
-    	<sequence>
-    		<element name="SignedDelivery" type="msg:SignedDelivery" minOccurs="1" maxOccurs="1" />
-    		<element name="Seal" type="msg:Seal" minOccurs="1" maxOccurs="1" />
-    		<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+	<complexType name="SimpleDelivery">
+		<sequence>
+			<element name="Header" type="msg:DeliveryHeader" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Message" type="msg:SimpleMessage" minOccurs="1"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 
-    <complexType name="MessageHeader">
-    	<sequence>
-    		<element name="Id" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Subject" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Supportinfo" type="msg:SupportInfo" minOccurs="1" maxOccurs="1" />
-    		<element name="Metadata" type="msg:MetaData" minOccurs="0" maxOccurs="unbounded" />
-    		<element name="Language" type="language" minOccurs="1" maxOccurs="1" />
-    		<element name="Reply" type="reply:ReplyOptions" minOccurs="0" maxOccurs="1" />
-    		<element name="ReceiptRequest" type="receipt:ReceiptOptions" minOccurs="0" maxOccurs="1" />
-    	</sequence>
-    </complexType>
-    
-    <complexType name="MessageBody">
-    	<sequence>
-    		<element name="ContentType" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Body" type="base64Binary" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
-    
-    <complexType name="Attachment">
-    	<sequence>
-    		<element name="ContentType" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Body" type="base64Binary" minOccurs="1" maxOccurs="1" />
-    		<element name="Checksum" type="string" maxOccurs="1" minOccurs="1" />
-    		<element name="Filename" type="string" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+	<complexType name="SignedDelivery">
+		<sequence>
+			<element name="Delivery" type="msg:SecureDelivery" minOccurs="1"
+				maxOccurs="1" />
+			<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
+		</sequence>
+        <attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+
+	<complexType name="ForwardDelivery">
+		<sequence>
+			<element name="Header" type="msg:DeliveryHeader" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Message" type="msg:ForwardMessage" minOccurs="1"
+				maxOccurs="1" />
+			<element name="OrginalDelivery" type="msg:SealedDelivery"
+				minOccurs="1" maxOccurs="1" />
+			<element name="MessageIdToForward" type="string"
+				minOccurs="0" maxOccurs="1" />	
+		</sequence>
+	</complexType>
+
+	<complexType name="SealedDelivery">
+		<sequence>
+			<element name="SignedDelivery" type="msg:SignedDelivery"
+				minOccurs="1" maxOccurs="1" />
+			<element name="Seal" type="msg:Seal" minOccurs="1" maxOccurs="1" />
+			<element ref="sig:Signature" minOccurs="1" maxOccurs="1" />
+		</sequence>
+        <attribute name="Id" type="ID" use="optional"/>
+	</complexType>
+
+	<complexType name="MessageHeader">
+		<sequence>
+			<element name="Id" type="string" minOccurs="1" maxOccurs="1" />
+			<element name="Subject" minOccurs="1" maxOccurs="1">
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="255" />
+                    </restriction>
+                </simpleType>
+            </element>
+			<element name="Supportinfo" type="msg:SupportInfo" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Metadata" type="msg:MetaData" minOccurs="0"
+				maxOccurs="unbounded" />
+			<element name="Language" type="language" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Reply" type="reply:ReplyOptions" minOccurs="0"
+				maxOccurs="1" />
+			<element name="ReceiptRequest" type="receipt:ReceiptOptions"
+				minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MessageBody">
+		<sequence>
+			<element name="ContentType" type="string" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Body" type="base64Binary" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Attachment">
+		<sequence>
+			<element name="ContentType" type="string" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Body" type="base64Binary" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Checksum" type="string" maxOccurs="1"
+				minOccurs="1" />
+			<element name="Filename" type="string" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
 
 	<complexType name="ForwardMessage">
 		<sequence>
-			<element name="Subject" type="string" minOccurs="1" maxOccurs="1" />
-			<element name="Body" type="msg:MessageBody" minOccurs="1" maxOccurs="1" />
+			<element name="Subject" type="string" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Body" type="msg:MessageBody" minOccurs="1"
+				maxOccurs="1" />
 		</sequence>
 	</complexType>
-	
-    <complexType name="SecureMessage">
+
+	<complexType name="SecureMessage">
 		<sequence>
-			<element name="Header" type="msg:MessageHeader" minOccurs="1" maxOccurs="1" />
-			<element name="Body" type="msg:MessageBody" minOccurs="1" maxOccurs="1" />
-			<element name="Attachment" type="msg:Attachment" minOccurs="0" maxOccurs="unbounded" />
+			<element name="Header" type="msg:MessageHeader" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Body" type="msg:MessageBody" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Attachment" type="msg:Attachment" minOccurs="0"
+				maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="SimpleMessage">
 		<sequence>
-			<element name="Header" type="msg:MessageHeader" minOccurs="1" maxOccurs="1" />
-			<element name="Body" type="notification:NotificationMessage" minOccurs="1" maxOccurs="2" />
+			<element name="Header" type="msg:MessageHeader" minOccurs="1"
+				maxOccurs="1" />
+			<element name="Body" type="notification:NotificationMessage"
+				minOccurs="1" maxOccurs="2" />
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="Seal">
-    	<sequence>
-    		<element name="ReceivedTime" type="date" minOccurs="1" maxOccurs="1" />
-    		<element name="SignaturesOK" type="boolean" minOccurs="1" maxOccurs="1" />
-    	</sequence>
-    </complexType>
+		<sequence>
+			<element name="ReceivedTime" type="date" minOccurs="1"
+				maxOccurs="1" />
+			<element name="SignaturesOK" type="boolean" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
 
 	<complexType name="SupportInfo">
 		<sequence>
@@ -158,9 +211,27 @@
 					</restriction>
 				</simpleType>
 			</element>
-			<element name="Logo" type="anyURI" minOccurs="0" maxOccurs="1" />
-			<element name="URL" type="anyURI" minOccurs="0" maxOccurs="1" />
-			<element name="PhoneNumber" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="Logo" minOccurs="0" maxOccurs="1">
+                <simpleType>
+                    <restriction base="anyURI">
+                        <maxLength value="255" />
+                    </restriction>
+                </simpleType>
+            </element>
+			<element name="URL" minOccurs="0" maxOccurs="1">
+                <simpleType>
+                    <restriction base="anyURI">
+                        <maxLength value="255" />
+                    </restriction>
+                </simpleType>
+            </element>
+			<element name="PhoneNumber" minOccurs="0" maxOccurs="1">
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="255" />
+                    </restriction>
+                </simpleType>
+            </element>
 			<element name="EmailAdress" type="recipient:EMailAdress" minOccurs="0" maxOccurs="1" />
 		</sequence>
 	</complexType>
@@ -174,9 +245,9 @@
 
 	<simpleType name="DeliveryStatus">
 		<restriction base="string">
-			<enumeration value="Delivered"></enumeration>
-			<enumeration value="Pending"></enumeration>
-			<enumeration value="DeliveryFailed"></enumeration>
+			<enumeration value="Delivered" />
+			<enumeration value="Pending" />
+			<enumeration value="DeliveryFailed" />
 		</restriction>
 	</simpleType>
 </schema>

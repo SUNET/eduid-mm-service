@@ -115,34 +115,8 @@
             		</xsd:sequence>
             	</xsd:complexType>
             </xsd:element>
-            <xsd:element name="deliverSecureFault" type="c:ExceptionInformation">
+            <xsd:element name="deliverSecureFault" type="c:ExceptionInformation" />
 
-            </xsd:element>
-            <xsd:element name="getMessageCount">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="arg0"
-            				type="recipient:RecipientId" minOccurs="1"
-            				maxOccurs="unbounded">
-            			</xsd:element>
-            			<xsd:element name="arg1"
-            				type="authority:UserIdentity" minOccurs="1" maxOccurs="1">
-            			</xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="getMessageCountResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="return" type="service:MessageCount" minOccurs="1" maxOccurs="unbounded"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="getMessageCountFault" type="c:ExceptionInformation">
-
-            </xsd:element>
             <xsd:element name="deliverForward">
             	<xsd:complexType>
             		<xsd:sequence>
@@ -217,15 +191,6 @@
     <wsdl:message name="deliverSecureFault">
     	<wsdl:part name="fault" element="service:deliverSecureFault"></wsdl:part>
     </wsdl:message>
-    <wsdl:message name="getMessageCountRequest">
-    	<wsdl:part name="parameters" element="service:getMessageCount"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="getMessageCountResponse">
-    	<wsdl:part name="parameters" element="service:getMessageCountResponse"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="getMessageCountFault">
-    	<wsdl:part name="fault" element="service:getMessageCountFault"></wsdl:part>
-    </wsdl:message>
     <wsdl:message name="deliverForwardRequest">
     	<wsdl:part name="parameters" element="service:deliverForward"></wsdl:part>
     </wsdl:message>
@@ -265,11 +230,6 @@
         	<wsdl:input message="service:deliverSecureRequest"></wsdl:input>
         	<wsdl:output message="service:deliverSecureResponse"></wsdl:output>
             <wsdl:fault name="fault" message="service:deliverSecureFault"></wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="getMessageCount">
-        	<wsdl:input message="service:getMessageCountRequest"></wsdl:input>
-        	<wsdl:output message="service:getMessageCountResponse"></wsdl:output>
-            <wsdl:fault name="fault" message="service:getMessageCountFault"></wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="deliverForward">
         	<wsdl:input message="service:deliverForwardRequest"></wsdl:input>
@@ -352,18 +312,6 @@
             </wsdl:fault>
         </wsdl:operation>
         <wsdl:operation name="deliverForward">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="getMessageCount">
             <soap:operation soapAction=""/>
             <wsdl:input>
                 <soap:body use="literal"/>

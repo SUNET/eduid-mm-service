@@ -88,23 +88,40 @@
     		</xsd:complexType>
     	</xsd:element>	
     	<xsd:element name="cancelFault" type="c:ExceptionInformation"></xsd:element>
-    	<xsd:element name="getAll">
-    		<xsd:complexType>
-    			<xsd:sequence>
-    				<xsd:element name="arg0" type="r:RecipientId" minOccurs="0" maxOccurs="unbounded">
-    				</xsd:element>
-    				<xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
-    			</xsd:sequence>
-    		</xsd:complexType>
-    	</xsd:element>
-    	<xsd:element name="getAllResponse">
-    		<xsd:complexType>
-    			<xsd:sequence>
-    				<xsd:element name="return" type="consent:Consent" minOccurs="0" maxOccurs="unbounded"></xsd:element>
-    			</xsd:sequence>
-    		</xsd:complexType>
-    	</xsd:element>
-    	<xsd:element name="getAllFault" type="c:ExceptionInformation"></xsd:element>
+        <xsd:element name="getAll">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="arg0" type="r:RecipientId" minOccurs="0" maxOccurs="unbounded">
+                    </xsd:element>
+                    <xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllResponse">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="return" type="consent:Consent" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllFault" type="c:ExceptionInformation"></xsd:element>
+        <xsd:element name="getAllPrivate">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="arg0" type="r:RecipientId" minOccurs="0" maxOccurs="unbounded">
+                    </xsd:element>
+                    <xsd:element name="arg1" type="authority:UserIdentity" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllPrivateResponse">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="return" type="consent:Consent" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+        <xsd:element name="getAllPrivateFault" type="c:ExceptionInformation"/>
     </xsd:schema>
   </wsdl:types>
   
@@ -145,15 +162,24 @@
   <wsdl:message name="cancelFault">
   	<wsdl:part name="parameters" element="consent:cancelFault"></wsdl:part>
   </wsdl:message>
-  <wsdl:message name="getAllRequest">
-  	<wsdl:part name="parameters" element="consent:getAll"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllResponse">
-  	<wsdl:part name="parameters" element="consent:getAllResponse"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllFault">
-  	<wsdl:part name="parameters" element="consent:getAllFault"></wsdl:part>
-  </wsdl:message>
+    <wsdl:message name="getAllRequest">
+        <wsdl:part name="parameters" element="consent:getAll"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAllResponse">
+        <wsdl:part name="parameters" element="consent:getAllResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAllFault">
+        <wsdl:part name="parameters" element="consent:getAllFault"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getAllPrivateRequest">
+        <wsdl:part name="parameters" element="consent:getAllPrivate"/>
+    </wsdl:message>
+    <wsdl:message name="getAllPrivateResponse">
+        <wsdl:part name="parameters" element="consent:getAllPrivateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getAllPrivateFault">
+        <wsdl:part name="parameters" element="consent:getAllPrivateFault"/>
+    </wsdl:message>
   <wsdl:portType name="ConsentPort">
     
     <wsdl:operation name="registerConsent">
@@ -177,16 +203,20 @@
     	<wsdl:output message="consent:cancelResponse"></wsdl:output>
             <wsdl:fault name="fault" message="consent:cancelFault"></wsdl:fault>
         </wsdl:operation>
-    <wsdl:operation name="getAll">
-    	<wsdl:input message="consent:getAllRequest"></wsdl:input>
-    	<wsdl:output message="consent:getAllResponse"></wsdl:output>
-            <wsdl:fault name="fault" message="consent:getAllFault"></wsdl:fault>
-        </wsdl:operation>
+      <wsdl:operation name="getAll">
+          <wsdl:input message="consent:getAllRequest"></wsdl:input>
+          <wsdl:output message="consent:getAllResponse"></wsdl:output>
+          <wsdl:fault name="fault" message="consent:getAllFault"></wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getAllPrivate">
+          <wsdl:input message="consent:getAllPrivateRequest"/>
+          <wsdl:output message="consent:getAllPrivateResponse"/>
+          <wsdl:fault name="fault" message="consent:getAllPrivateFault"/>
+      </wsdl:operation>
   </wsdl:portType>
     
   <wsdl:binding name="ConsentBinding" type="consent:ConsentPort">
-  	<soap:binding style="document"
-  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
 
   	<wsdl:operation name="registerConsent">
   		<soap:operation soapAction="" />
@@ -239,19 +269,33 @@
   			<soap:fault name="fault" use="literal" />
   		</wsdl:fault>
   	</wsdl:operation>
-  	
-  	<wsdl:operation name="getAll">
-  		<soap:operation soapAction="" />
-  		<wsdl:input>
-  			<soap:body use="literal" />
-  		</wsdl:input>
-  		<wsdl:output>
-  			<soap:body use="literal" />
-  		</wsdl:output>
-  		<wsdl:fault name="fault">
-  			<soap:fault name="fault" use="literal" />
-  		</wsdl:fault>
-  	</wsdl:operation>
+
+      <wsdl:operation name="getAll">
+          <soap:operation soapAction="" />
+          <wsdl:input>
+              <soap:body use="literal" />
+          </wsdl:input>
+          <wsdl:output>
+              <soap:body use="literal" />
+          </wsdl:output>
+          <wsdl:fault name="fault">
+              <soap:fault name="fault" use="literal" />
+          </wsdl:fault>
+      </wsdl:operation>
+
+
+      <wsdl:operation name="getAllPrivate">
+          <soap:operation soapAction="" />
+          <wsdl:input>
+              <soap:body use="literal" />
+          </wsdl:input>
+          <wsdl:output>
+              <soap:body use="literal" />
+          </wsdl:output>
+          <wsdl:fault name="fault">
+              <soap:fault name="fault" use="literal" />
+          </wsdl:fault>
+      </wsdl:operation>
 
   </wsdl:binding>
   <wsdl:service name="Consent">
