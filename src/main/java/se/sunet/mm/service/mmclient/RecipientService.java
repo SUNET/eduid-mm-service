@@ -4,8 +4,6 @@ import se.gov.minameddelanden.recipient.Recipient;
 import se.gov.minameddelanden.recipient.RecipientPort;
 import se.gov.minameddelanden.schema.recipient.AccountTypes;
 import se.gov.minameddelanden.schema.recipient.ReachabilityStatus;
-import se.gov.minameddelanden.schema.recipient.ServiceSupplier;
-import se.sunet.mm.service.api.UserReachable;
 
 import java.util.ArrayList;
 import java.util.List;
