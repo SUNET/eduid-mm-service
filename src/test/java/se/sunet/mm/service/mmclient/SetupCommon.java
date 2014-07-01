@@ -18,8 +18,8 @@ public class SetupCommon  {
     public static final String SENDER_MAIL = "info@kommun_b.se";
     public static final String SENDER_PHONE = "08-121212121212";
     public static final String SENDER_URL = "http://www.kommun_b.se/";
-    public static final String SENDER_PKCS8_KEY_PATH = "file:/home/lundberg/projects/eduid-mm-service/certs/Kommun_B.p8";
-    public static final String SENDER_PEM_CERT_PATH = "file:/home/lundberg/projects/eduid-mm-service/certs/Kommun_B.crt";
+    public static final String SENDER_PKCS8_KEY_PATH = "file:./src/test/resources/Kommun_B.p8";
+    public static final String SENDER_PEM_CERT_PATH = "file:./src/test/resources/Kommun_B.crt";
 
 
     @BeforeTest
