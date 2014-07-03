@@ -127,6 +127,8 @@ public class EmbeddedServer {
         String mmTrustStorePath = prop.getProperty("mmTrustStorePath");
         String mmTrustStorePassword = prop.getProperty("mmTrustStorePassword");
         setupMMClientStores(mmKeyStorePath, mmKeyStorePassword, mmTrustStorePath, mmTrustStorePassword);
+        String mmWsBaseEndpoint = prop.getProperty("wsBaseEndpoint");
+        System.setProperty("se.sunet.mm.service.wsBaseEndpoint", mmWsBaseEndpoint);
         // Sender configuration
         String senderOrganisationNumber = prop.getProperty("senderOrganisationNumber");
         String senderName = prop.getProperty("senderName");

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.gov.minameddelanden.schema.service.DeliveryResult;
 import se.sunet.mm.service.api.exceptions.RestException;
+import se.sunet.mm.service.mmclient.SenderInformation;
 import se.sunet.mm.service.mmclient.ServiceService;
 
 import javax.ws.rs.*;
@@ -22,16 +23,21 @@ public class Message {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(Message.class);
     private final Gson gson = new Gson();
-    private final ServiceService service = new ServiceService(
-            System.getProperty("se.sunet.mm.service.senderOrganisationNumber"),
-            System.getProperty("se.sunet.mm.service.senderName"),
-            System.getProperty("se.sunet.mm.service.senderSupportText"),
-            System.getProperty("se.sunet.mm.service.senderSupportEmailAddress"),
-            System.getProperty("se.sunet.mm.service.senderSupportPhoneNumber"),
-            System.getProperty("se.sunet.mm.service.senderSupportURL"),
-            System.getProperty("se.sunet.mm.service.senderPKCS8KeyPath"),
-            System.getProperty("se.sunet.mm.service.senderPEMCertPath")
-    );
+    private final ServiceService service;
+
+    public Message() {
+        SenderInformation senderInformation = new SenderInformation(
+                System.getProperty("se.sunet.mm.service.senderOrganisationNumber"),
+                System.getProperty("se.sunet.mm.service.senderName"),
+                System.getProperty("se.sunet.mm.service.senderSupportText"),
+                System.getProperty("se.sunet.mm.service.senderSupportEmailAddress"),
+                System.getProperty("se.sunet.mm.service.senderSupportPhoneNumber"),
+                System.getProperty("se.sunet.mm.service.senderSupportURL"),
+                System.getProperty("se.sunet.mm.service.senderPKCS8KeyPath"),
+                System.getProperty("se.sunet.mm.service.senderPEMCertPath"));
+        String wsBaseEndpoint = System.getProperty("se.sunet.mm.service.wsBaseEndpoint");
+        this.service = new ServiceService(wsBaseEndpoint, senderInformation);
+    }
 
     public class SendRequest {
 

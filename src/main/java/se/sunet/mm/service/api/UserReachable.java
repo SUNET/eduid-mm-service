@@ -22,7 +22,16 @@ public class UserReachable {
 
     private final Logger slf4jLogger = LoggerFactory.getLogger(UserReachable.class);
     private final Gson gson = new Gson();
-    private final RecipientService service = new RecipientService(System.getProperty("se.sunet.mm.service.senderOrganisationNumber"));
+    private final RecipientService service;
+
+    public UserReachable() {
+        String wsBaseEndpoint = System.getProperty("se.sunet.mm.service.wsBaseEndpoint");
+        String senderOrganisationNumber = System.getProperty("se.sunet.mm.service.senderOrganisationNumber");
+        this.service = new RecipientService(wsBaseEndpoint, senderOrganisationNumber);
+    }
+
+
+
 
     public static class Request {
         private String identity_number;

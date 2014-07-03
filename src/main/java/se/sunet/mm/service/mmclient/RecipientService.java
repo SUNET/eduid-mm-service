@@ -16,19 +16,23 @@ public class RecipientService extends ClientBase {
     /***
      * Constructor
      *
+     * @param wsBaseEndpoint the web service base endpoint
      * @param organizationNumber a Swedish organization number
      */
-    public RecipientService(String organizationNumber) {
+    public RecipientService(String wsBaseEndpoint, String organizationNumber) {
+        super(wsBaseEndpoint);
         this.organizationNumber = organizationNumber;
     }
 
     /***
      * Constructor
      *
+     * @param wsBaseEndpoint the web service base endpoint
      * @param organizationNumber a Swedish organization number
      * @param serviceEndpoint the webservice URL
      */
-    public RecipientService(String organizationNumber, String serviceEndpoint) {
+    public RecipientService(String wsBaseEndpoint, String organizationNumber, String serviceEndpoint) {
+        super(wsBaseEndpoint);
         this.serviceEndpoint = serviceEndpoint;
         this.organizationNumber = organizationNumber;
     }

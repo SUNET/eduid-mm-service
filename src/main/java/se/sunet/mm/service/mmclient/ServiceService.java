@@ -23,28 +23,13 @@ import java.util.GregorianCalendar;
 import java.util.UUID;
 
 public class ServiceService extends ClientBase {
-    private String senderName;
-    private String senderOrganisationNumber;
-    private String senderSupportText;
-    private String senderSupportEmailAddress;
-    private String senderSupportPhoneNumber;
-    private String senderSupportURL;
-    private String senderPKCS8KeyPath;
-    private String senderPEMCertPath;
 
     private static String serviceEndpoint = null;
+    private SenderInformation senderInformation;
 
-    public ServiceService(String senderOrganisationNumber, String senderName, String senderSupportText,
-                          String senderSupportEmailAddress, String senderSupportPhoneNumber, String senderSupportURL,
-                          String senderPKCS8KeyPath, String senderPEMCertPath) {
-        this.senderOrganisationNumber = senderOrganisationNumber;
-        this.senderName = senderName;
-        this.senderSupportText = senderSupportText;
-        this.senderSupportEmailAddress = senderSupportEmailAddress;
-        this.senderSupportPhoneNumber = senderSupportPhoneNumber;
-        this.senderSupportURL = senderSupportURL;
-        this.senderPKCS8KeyPath = senderPKCS8KeyPath;
-        this.senderPEMCertPath = senderPEMCertPath;
+    public ServiceService(String wsBaseEndpoint, SenderInformation senderInformation) {
+        super(wsBaseEndpoint);
+        this.senderInformation = senderInformation;
     }
 
     public DeliveryResult sendSecureMessage(String recipient,
@@ -70,7 +55,7 @@ public class ServiceService extends ClientBase {
         SignedDelivery signedDelivery = createSignedDelivery(secureDelivery);
         SealedDelivery sealedDelivery = sealSignedDelivery(signedDelivery);
 
-        RecipientService recipientService = new RecipientService(senderOrganisationNumber);
+        RecipientService recipientService = new RecipientService(getWsBaseEndpoint(), senderInformation.getSenderOrganisationNumber());
         String url = recipientService.getServiceAddress(recipient);
         ServicePort servicePort = getPort(ServicePort.class, Service.class, url);
 
@@ -80,8 +65,8 @@ public class ServiceService extends ClientBase {
     private DeliveryHeader createDeliveryHeader(String recipient) {
         DeliveryHeader header  = new DeliveryHeader();
         Sender sender = new Sender();
-        sender.setId(senderOrganisationNumber);
-        sender.setName(senderName);
+        sender.setId(senderInformation.getSenderOrganisationNumber());
+        sender.setName(senderInformation.getSenderName());
         header.setSender(sender);
         header.getRecipient().add(recipient);
 
@@ -90,10 +75,10 @@ public class ServiceService extends ClientBase {
 
     private SupportInfo createSupportInfo() {
         SupportInfo supportInfo = new SupportInfo();
-        supportInfo.setText(senderSupportText);
-        supportInfo.setEmailAdress(senderSupportEmailAddress);
-        supportInfo.setPhoneNumber(senderSupportPhoneNumber);
-        supportInfo.setURL(senderSupportURL);
+        supportInfo.setText(senderInformation.getSenderSupportText());
+        supportInfo.setEmailAdress(senderInformation.getSenderSupportEmailAddress());
+        supportInfo.setPhoneNumber(senderInformation.getSenderSupportPhoneNumber());
+        supportInfo.setURL(senderInformation.getSenderSupportURL());
 
         return supportInfo;
     }
@@ -137,9 +122,9 @@ public class ServiceService extends ClientBase {
     }
 
     private X509CertificateWithPrivateKey getKeyPair() throws URISyntaxException, CertificateException {
-        URI certUri = new URI(senderPEMCertPath);
+        URI certUri = new URI(senderInformation.getSenderPEMCertPath());
         X509Certificate cert = CertificateUtils.readCertificateFromUrl(certUri);
-        URI keyUri = new URI(senderPKCS8KeyPath);
+        URI keyUri = new URI(senderInformation.getSenderPKCS8KeyPath());
         PrivateKey key = CertificateUtils.readKey(keyUri);
 
         return new X509CertificateWithPrivateKey(cert, key);

@@ -15,8 +15,16 @@ import java.security.*;
  * Base class for all svc services, supposed to be sub classed
  */
 public class ClientBase {
-    private static final String SVC_ENDPOINT_URL = "https://notarealhost.skatteverket.se/webservice/accao";
+    private String wsBaseEndpoint;
     private KeyStore keyStore;
+
+    public ClientBase(String wsBaseEndpoint) {
+        this.wsBaseEndpoint = wsBaseEndpoint;
+    }
+
+    public String getWsBaseEndpoint() {
+        return wsBaseEndpoint;
+    }
 
     /***
      * Get svc port for provided port type and service class
@@ -34,7 +42,7 @@ public class ClientBase {
         String endpoint = urlEndpoint;
 
         if (endpoint == null) {
-            endpoint = String.format("%s/%s", SVC_ENDPOINT_URL, serviceName);
+            endpoint = String.format("%s/%s", wsBaseEndpoint, serviceName);
         }
 
         svc = instantiate(serviceInterface);

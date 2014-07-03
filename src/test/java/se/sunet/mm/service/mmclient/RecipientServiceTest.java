@@ -10,7 +10,7 @@ public class RecipientServiceTest extends SetupCommon {
 
     @Test
     public void testIsReachable() throws Exception {
-        RecipientService service = new RecipientService(SENDER_ORG_NR);
+        RecipientService service = new RecipientService(WS_BASE_ENDPOINT, SENDER_ORG_NR);
         ReachabilityStatus status = service.isReachable(TEST_PERSON_NIN);
 
         assertEquals(status.getAccountStatus().getType(), AccountTypes.SECURE);
