@@ -8,7 +8,7 @@ import java.security.cert.X509Certificate;
 
 public class SetupCommon  {
     private static final String KEY_STORE_PATH = "./src/test/resources/Kommun_B.p12";
-    private static final String KEY_STORE_PASSWORD = "7374645261023221";
+    private static final String KEY_STORE_PASSWORD = "3625092702451054";
     private static final String TRUST_KEYSTORE_PATH = "./src/test/resources/trust.jks";
     private static final String TRUST_KEYSTORE_PASSWORD = "trustedcerts";
     public static final String WS_BASE_ENDPOINT = "https://notarealhost.skatteverket.se/webservice/accao";
