@@ -24,7 +24,7 @@
     <properties>
         <project.builder.sourceEncoding>UTF-8</project.builder.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jetty.version>9.4.22.v20191022</jetty.version>
+        <jetty.version>9.4.24.v20191120</jetty.version>
         <cxf.version>3.1.16</cxf.version>
         <sl4j.version>1.7.7</sl4j.version>
     </properties>
