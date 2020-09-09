@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.60</version>
+            <version>1.65</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>2.30.1</version>
+            <version>2.31</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
