@@ -24,7 +24,7 @@
     <properties>
         <project.builder.sourceEncoding>UTF-8</project.builder.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jetty.version>9.4.32.v20200930</jetty.version>
+        <jetty.version>9.4.39.v20210325</jetty.version>
         <cxf.version>3.4.0</cxf.version>
         <sl4j.version>1.7.30</sl4j.version>
     </properties>
@@ -108,7 +108,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
-            <version>2.32</version>
+            <version>2.34</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
