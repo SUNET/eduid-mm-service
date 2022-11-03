@@ -53,8 +53,8 @@ import se.gov.minameddelanden.common.exception.ApplicationErrorCode;
 import se.gov.minameddelanden.common.exception.ApplicationException;
 import se.gov.minameddelanden.common.exception.SystemErrorCode;
 import se.gov.minameddelanden.common.exception.SystemException;
-import sun.security.pkcs.PKCS7;
-import sun.security.pkcs.ParsingException;
+// import sun.security.pkcs.PKCS7;
+// import sun.security.pkcs.ParsingException;
 
 @SuppressWarnings("restriction")
 public class SignatureUtils {
@@ -64,14 +64,15 @@ public class SignatureUtils {
     }
 
 	public static boolean isPKCS7(byte[] rawSignature) {
-        try {
-            new PKCS7(rawSignature);
-            LOGGER.fine("Signaturen var en PKCS#7");
-            return true;
-        } catch (ParsingException e) {
-            LOGGER.fine("Signaturen är INTE en PKCS#7");
-            return false;
-        }
+        // try {
+        //     new PKCS7(rawSignature);
+        //     LOGGER.fine("Signaturen var en PKCS#7");
+        //     return true;
+        // } catch (ParsingException e) {
+        //     LOGGER.fine("Signaturen är INTE en PKCS#7");
+        //     return false;
+        // }
+        return false;
     }
 
     public static byte[] base64EncodedSignatureToBytes(String input) {
@@ -171,7 +172,8 @@ public class SignatureUtils {
 
     public static X509Certificate getSigningCertificate(byte[] rawSignature) throws Exception {
         if (isPKCS7(rawSignature)) {
-            return parsePkcs7(rawSignature);
+            //return parsePkcs7(rawSignature);
+            throw new RuntimeException("PKCS7 not supported");
         } else {
             return getXmlSigningCert(rawSignature);
         }
@@ -182,9 +184,11 @@ public class SignatureUtils {
         return getSigningCert(crts);
     }
 
-	static X509Certificate parsePkcs7(byte[] rawSignature) throws ParsingException {
-        PKCS7 p7 = new PKCS7(rawSignature);
-        return getSigningCert(p7.getCertificates());
+	static X509Certificate parsePkcs7(byte[] rawSignature) throws RuntimeException {
+        throw new RuntimeException("PKCS7 not supported");
+
+        // PKCS7 p7 = new PKCS7(rawSignature);
+        // return getSigningCert(p7.getCertificates());
     }
 
     static X509Certificate getXmlSigningCert(byte[] rawSignature) throws Exception {
