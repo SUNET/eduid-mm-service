@@ -40,12 +40,12 @@ import javax.naming.ldap.Rdn;
 import javax.security.auth.x500.X500Principal;
 
 import org.apache.commons.io.IOUtils;
+import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.asn1.x509.X509Extensions;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 import org.bouncycastle.x509.extension.AuthorityKeyIdentifierStructure;
-import org.bouncycastle.x509.extension.SubjectKeyIdentifierStructure;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -99,7 +99,7 @@ public class CertificateUtils {
         initCertificate(certificateGenerator, keyPair, serialNumberBigInteger, start, end, dn, issuerDn);
 
         certificateGenerator.addExtension(X509Extensions.AuthorityKeyIdentifier, false, new AuthorityKeyIdentifierStructure(caCert.getCertificate()));
-        certificateGenerator.addExtension(X509Extensions.SubjectKeyIdentifier, false, new SubjectKeyIdentifierStructure(keyPair.getPublic()));
+        certificateGenerator.addExtension(X509Extensions.SubjectKeyIdentifier, false, SubjectKeyIdentifier.getInstance((keyPair.getPublic())));
 
         return new X509CertificateWithPrivateKey(certificateGenerator.generate(caCert.getPrivateKey()), keyPair.getPrivate());
     }
