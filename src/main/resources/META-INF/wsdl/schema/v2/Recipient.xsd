@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2016 rel. 2 sp1 (x64) (http://www.altova.com) by ﻿Skatteverket (Skatteverket) -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient" xmlns:recipientv2="http://minameddelanden.gov.se/schema/Recipient/v2" xmlns:authority="http://minameddelanden.gov.se/schema/Authority" xmlns:sender="http://minameddelanden.gov.se/schema/Sender" xmlns:common="http://minameddelanden.gov.se/schema/Common" targetNamespace="http://minameddelanden.gov.se/schema/Recipient/v2" elementFormDefault="qualified">
+    <annotation>
+        <documentation>Version 2.0</documentation>
+    </annotation>
+    <import namespace="http://minameddelanden.gov.se/schema/Recipient" schemaLocation="../Recipient.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Authority" schemaLocation="../Authority.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Common" schemaLocation="../Common.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Sender" schemaLocation="../Sender.xsd"/>
+    <element name="Id" type="recipient:RecipientId">
+       
+    </element>
+    <element name="CompanyId" type="recipient:RecipientId">
+       
+    </element>
+    <element name="UserIdentity" type="authority:UserIdentity">
+        
+    </element>
+    <complexType name="OrganizationIdentity">
+       
+        <sequence>
+            <element ref="recipientv2:Id"/>
+            <element ref="recipientv2:UserIdentity"/>
+        </sequence>
+    </complexType>
+    <element name="changeServiceSupplier">
+        <complexType>
+            <sequence>
+                <element ref="recipientv2:Id"/>
+                <element ref="recipientv2:UserIdentity"/>
+                <element name="ServiceSupplier" type="string">
+                    <annotation>
+                        <documentation>The internet domain of the chosen service supplier.</documentation>
+                    </annotation>
+                </element>
+                <element name="AgreementText" type="string"/>
+                <element name="SignatureData" type="common:SignatureData" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="changeServiceSupplierResponse">
+        <complexType>
+            <sequence>
+                <element name="signatureAuthorizationResult" type="authority:SignatureAuthorizationResult"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingChangeServiceSupplier">
+        <complexType>
+            <sequence>
+                <element ref="recipientv2:Id"/>
+                <element ref="recipientv2:UserIdentity"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingChangeServiceSupplierResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv2:PendingChangeServiceSupplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingChangeServiceSupplierFault" type="common:ExceptionInformation"/>
+    <complexType name="PendingChangeServiceSupplier">
+        <sequence>
+            <element name="serviceSupplier" type="recipient:ServiceSupplier" minOccurs="0"/>
+            <element name="pendingSignatures" type="authority:SignatureAuthorizationResult"/>
+        </sequence>
+    </complexType>
+    <element name="deletePendingChangeServiceSupplier">
+        <complexType>
+            <sequence>
+                <element name="organizationIdentity" type="recipientv2:OrganizationIdentity"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingChangeServiceSupplierResponse">
+        <complexType>
+            <sequence>
+                <element name="serviceSupplier" type="recipient:ServiceSupplier"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingChangeServiceSupplierFault" type="common:ExceptionInformation"/>
+    <element name="storeAccountPreferences">
+        <complexType>
+            <sequence>
+                <element ref="recipientv2:Id"/>
+                <element ref="recipientv2:UserIdentity"/>
+                <element name="preferences" type="recipient:AccountPreferences">
+                    <annotation>
+                        <documentation>The list of account preferences.</documentation>
+                    </annotation>
+                </element>
+                <element name="AgreementText" type="string"/>
+                <element name="SignatureData" type="common:SignatureData" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="storeAccountPreferencesResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="authority:SignatureAuthorizationResult"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingAccountPreferences">
+        <complexType>
+            <sequence>
+                <element ref="recipientv2:Id"/>
+                <element ref="recipientv2:UserIdentity"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingAccountPreferencesResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv2:PendingAccountPreferences"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingAccountPreferencesFault" type="common:ExceptionInformation"/>
+    <complexType name="PendingAccountPreferences">
+        <sequence>
+            <element name="AccountPreferences" type="recipient:AccountPreferences"/>
+            <element name="PendingSignatures" type="authority:SignatureAuthorizationResult"/>
+        </sequence>
+    </complexType>
+    <element name="deletePendingAccountPreferences">
+        <complexType>
+            <sequence>
+                <element name="organizationIdentity" type="recipientv2:OrganizationIdentity"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingAccountPreferencesResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv2:OrganizationIdentity"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingAccountPreferencesFault" type="common:ExceptionInformation"/>
+    <element name="isAuthorizedSigner">
+        <complexType>
+            <sequence>                
+                <element ref="recipientv2:CompanyId">
+                  
+                </element>
+                <element ref="recipientv2:UserIdentity">
+                   
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isAuthorizedSignerResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv2:AuthorizedAccount"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isAuthorizedSignerFault" type="common:ExceptionInformation"/>
+    <complexType name="AuthorizedAccount">
+        <sequence>
+            <element name="isAccountAuthorizedSigner" type="boolean">
+               
+            </element>
+            <element ref="recipientv2:UserIdentity">
+              
+            </element>
+            <element ref="recipientv2:CompanyId">
+             
+            </element>
+            <element name="CompanyName" type="string">
+               
+            </element>
+            <element name="CompanySignatureRuleText" type="string" minOccurs="1" maxOccurs="1">
+               
+            </element>
+            <element name="PossibleSigners" type="authority:Person" minOccurs="0" maxOccurs="unbounded">
+              
+            </element>
+            <element name="AccountInformation" type="recipientv2:AccountInformation" minOccurs="0">
+               
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="AccountInformation">
+        <sequence>
+            <element name="AccountStatus" type="recipientv2:AccountStatus">
+               
+            </element>
+            <element name="SignedBy" type="authority:Person" minOccurs="0" maxOccurs="unbounded">
+               
+            </element>
+            <element name="SignatureStatus" type="authority:AuthorizationStatus">
+            
+            </element>
+            <element name="serviceSupplier" type="string">
+              
+            </element>
+            <element name="AgreementText" type="string" minOccurs="0">
+              
+            </element>
+        </sequence>
+    </complexType>
+    <simpleType name="AccountStatus">
+        
+        <restriction base="string">
+            <enumeration value="Active">
+               
+            </enumeration>
+            <enumeration value="Pending">
+               
+            </enumeration>
+        </restriction>
+    </simpleType>
+</schema>

@@ -11,7 +11,7 @@ public class SetupCommon  {
     private static final String KEY_STORE_PASSWORD = "9335362769630050";
     private static final String TRUST_KEYSTORE_PATH = "./src/test/resources/trust.jks";
     private static final String TRUST_KEYSTORE_PASSWORD = "SECRET";
-    public static final String WS_BASE_ENDPOINT = "https://notarealhost.skatteverket.se/webservice/accao";
+    public static final String WS_BASE_ENDPOINT = "https://notarealhost.skatteverket.se/webservice/acc1accao";
     public static final String TEST_PERSON_NIN = "192705178354";
     public static final String SENDER_ORG_NR = "162021003898";
     public static final String SENDER_NAME = "Kommun B";
@@ -42,5 +42,6 @@ public class SetupCommon  {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
 
         //System.setProperty("javax.net.debug", "ssl, handshake, failure");
+        System.setProperty("javax.net.debug", "all");
     }
 }

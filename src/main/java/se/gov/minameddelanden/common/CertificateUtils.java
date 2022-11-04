@@ -26,6 +26,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -69,8 +70,8 @@ public class CertificateUtils {
     public static String getSerialNumber(X509Certificate[] certificates) {
     	String serialNumber = null;
     	X509Certificate certificate = getFirstCertificateOrNull(certificates);
-    	
-    	if (certificate != null) { 
+
+    	if (certificate != null) {
 	        String subjectDN = certificate.getSubjectX500Principal().getName(RFC1779, Collections.singletonMap(SERIAL_NUMBER_OID, "serialNumber"));
 	        LOGGER.fine("Got certificate with subject DN " + subjectDN);
 	        Matcher matcher = Pattern.compile("\\bserialNumber=(\\d+)").matcher(subjectDN);
@@ -79,7 +80,7 @@ public class CertificateUtils {
 	            LOGGER.fine("Didn't find a serialNumber (Object ID " + SERIAL_NUMBER_OID + ") in the certificate subject DN.");
 	            return null;
 	        }
-	        
+
 	        serialNumber = matcher.group(1);
 	        LOGGER.fine("Found serialNumber (Object ID " + SERIAL_NUMBER_OID + ") " + serialNumber + " in the certificate subject DN.");
     	}
@@ -124,13 +125,17 @@ public class CertificateUtils {
     }
 
     static Map<X500Principal, X509Certificate> getCertificatesFromUrls(Iterable<String> urls) {
-        try {
-            LOGGER.finer("Getting certs for " + urls + " from cache.");
-            return CA_CERTS_CACHE.get(urls);
-        }
-        catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        Map<X500Principal, X509Certificate> caCerts = new HashMap<X500Principal, X509Certificate>();
+        return caCerts;
+
+        // try {
+        //     LOGGER.finer("Getting certs for " + urls + " from cache.");
+        //     return CA_CERTS_CACHE.get(urls);
+
+        // }
+        // catch (ExecutionException e) {
+        //     throw new RuntimeException(e);
+        // }
     }
 
     public static Map<X500Principal, X509Certificate> getCertificatesFromUrls(String... urls) {
@@ -208,7 +213,7 @@ public class CertificateUtils {
 	public static String getIssuer(X509Certificate[] certificates) {
 		String retval = null;
 		X509Certificate certificate = getFirstCertificateOrNull(certificates);
-		
+
 		if (certificate != null) {
 			retval = ldap(certificate.getIssuerX500Principal().getName(), "O");
 		}
