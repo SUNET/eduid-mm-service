@@ -127,15 +127,6 @@ public class CertificateUtils {
     static Map<X500Principal, X509Certificate> getCertificatesFromUrls(Iterable<String> urls) {
         Map<X500Principal, X509Certificate> caCerts = new HashMap<X500Principal, X509Certificate>();
         return caCerts;
-
-        // try {
-        //     LOGGER.finer("Getting certs for " + urls + " from cache.");
-        //     return CA_CERTS_CACHE.get(urls);
-
-        // }
-        // catch (ExecutionException e) {
-        //     throw new RuntimeException(e);
-        // }
     }
 
     public static Map<X500Principal, X509Certificate> getCertificatesFromUrls(String... urls) {

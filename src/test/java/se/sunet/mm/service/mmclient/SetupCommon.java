@@ -42,6 +42,6 @@ public class SetupCommon  {
         System.setProperty("javax.net.ssl.trustStoreType", "JKS");
 
         //System.setProperty("javax.net.debug", "ssl, handshake, failure");
-        System.setProperty("javax.net.debug", "all");
+        //System.setProperty("javax.net.debug", "all");
     }
 }
