@@ -1,332 +1,93 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wsdl:definitions xmlns:service="http://minameddelanden.gov.se/Service"
-                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service"
-                  targetNamespace="http://minameddelanden.gov.se/Service">
-    <wsdl:types>
-        <xsd:schema targetNamespace="http://minameddelanden.gov.se/Service"
-                    xmlns:tns="http://minameddelanden.gov.se/Service"
-                    xmlns:service="http://minameddelanden.gov.se/schema/Service"
-                    xmlns:message="http://minameddelanden.gov.se/schema/Message"
-                    xmlns:c="http://minameddelanden.gov.se/schema/Common"
-                    xmlns:notification="http://minameddelanden.gov.se/schema/Notification"
-                    xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
-                    xmlns:authority="http://minameddelanden.gov.se/schema/Authority"
-                    xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
-                    xmlns:reply="http://minameddelanden.gov.se/schema/Reply">
-
-			<xsd:import schemaLocation="schema/Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
-            <xsd:import schemaLocation="schema/Service.xsd" namespace="http://minameddelanden.gov.se/schema/Service" />
-            <xsd:import schemaLocation="schema/Message.xsd" namespace="http://minameddelanden.gov.se/schema/Message" />
-            <xsd:import schemaLocation="schema/Notification.xsd" namespace="http://minameddelanden.gov.se/schema/Notification" />
-            <xsd:import schemaLocation="schema/Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient" />
-            <xsd:import schemaLocation="schema/Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority" />
-            <xsd:import schemaLocation="schema/Receipt.xsd" namespace="http://minameddelanden.gov.se/schema/Receipt" />
-            <xsd:import schemaLocation="schema/Reply.xsd" namespace="http://minameddelanden.gov.se/schema/Reply" />
-
-            <xsd:element name="deliverReply">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="arg0" type="reply:SealedReplyDelivery" minOccurs="1" maxOccurs="1" />
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverReplyResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="return" type="message:DeliveryStatus" minOccurs="1" maxOccurs="1" />
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverReplyFault" type="c:ExceptionInformation" />
-            <xsd:element name="deliverReceipt">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="arg0" type="receipt:Receipt" minOccurs="1" maxOccurs="1" />
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverReceiptResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="return" type="message:DeliveryStatus" minOccurs="1" maxOccurs="1" />
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverReceiptFault" type="c:ExceptionInformation" />
-            <xsd:element name="notify">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="arg0" type="notification:NotificationDelivery" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="notifyResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-            			<xsd:element name="return" type="notification:NotifyResult" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="notifyFault" type="c:ExceptionInformation">
-            </xsd:element>
-			<xsd:element name="getUnusedMailboxes">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="arg0" type="xsd:int" minOccurs="1" maxOccurs="1" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="getUnusedMailboxesResponse">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="return" type="recipient:RecipientId" minOccurs="0" maxOccurs="unbounded" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="getUnusedMailboxesFault" type="c:ExceptionInformation" />
-			<xsd:element name="flagRemovedAccounts">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="arg0" type="service:Type" minOccurs="1" maxOccurs="1" />
-						<xsd:element name="arg1" type="recipient:RecipientId" minOccurs="0" maxOccurs="unbounded" />
-					</xsd:sequence>
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="flagRemovedAccountsResponse">
-				<xsd:complexType>
-					<xsd:sequence />
-				</xsd:complexType>
-			</xsd:element>
-			<xsd:element name="flagRemovedAccountsFault" type="c:ExceptionInformation" />
-            <xsd:element name="deliverSecure">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="arg0" type="message:SealedDelivery" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverSecureResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="return" type="service:DeliveryResult" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverSecureFault" type="c:ExceptionInformation" />
-
-            <xsd:element name="deliverForward">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="arg0" type="message:ForwardDelivery" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverForwardResponse">
-            	<xsd:complexType>
-            		<xsd:sequence>
-
-            			<xsd:element name="return" type="service:DeliveryResult" minOccurs="1" maxOccurs="1"></xsd:element>
-            		</xsd:sequence>
-            	</xsd:complexType>
-            </xsd:element>
-            <xsd:element name="deliverForwardFault" type="c:ExceptionInformation">
-            </xsd:element>
-        </xsd:schema>
-    </wsdl:types>
-    <wsdl:message name="deliverReplyRequest">
-    	<wsdl:part name="parameters" element="service:deliverReply" />
-    </wsdl:message>
-    <wsdl:message name="deliverReplyResponse">
-    	<wsdl:part name="parameters" element="service:deliverReplyResponse" />
-    </wsdl:message>
-    <wsdl:message name="deliverReplyFault">
-    	<wsdl:part name="fault" element="service:deliverReplyFault" />
-    </wsdl:message>
-    <wsdl:message name="deliverReceiptRequest">
-    	<wsdl:part name="parameters" element="service:deliverReceipt" />
-    </wsdl:message>
-    <wsdl:message name="deliverReceiptResponse">
-    	<wsdl:part name="parameters" element="service:deliverReceiptResponse" />
-    </wsdl:message>
-    <wsdl:message name="deliverReceiptFault">
-    	<wsdl:part name="fault" element="service:deliverReceiptFault" />
-    </wsdl:message>
-    <wsdl:message name="notifyRequest">
-    	<wsdl:part name="parameters" element="service:notify"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="notifyResponse">
-    	<wsdl:part name="parameters" element="service:notifyResponse"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="notifyFault">
-    	<wsdl:part name="fault" element="service:notifyFault"></wsdl:part>
-    </wsdl:message>
-	<wsdl:message name="getUnusedMailboxesRequest">
-		<wsdl:part name="parameters" element="service:getUnusedMailboxes" />
+<wsdl:definitions xmlns:tns="http://minameddelanden.gov.se/Service" xmlns:service2="http://minameddelanden.gov.se/schema/Service/v2" xmlns:service3="http://minameddelanden.gov.se/schema/Service/v3" xmlns:common3="http://minameddelanden.gov.se/schema/Common/v3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service" targetNamespace="http://minameddelanden.gov.se/Service">
+	<wsdl:documentation>Version 3.0</wsdl:documentation>
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://minameddelanden.gov.se/schema/Service/v2" schemaLocation="schema/v2/Service.xsd"/>
+			<xsd:import namespace="http://minameddelanden.gov.se/schema/Service/v3" schemaLocation="schema/v3/Service.xsd"/>
+			<xsd:import namespace="http://minameddelanden.gov.se/schema/Common/v3" schemaLocation="schema/v3/Common.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="notifyRequestV3">
+		<wsdl:part name="parameters" element="service3:notify"/>
 	</wsdl:message>
-	<wsdl:message name="getUnusedMailboxesResponse">
-		<wsdl:part name="parameters" element="service:getUnusedMailboxesResponse" />
+	<wsdl:message name="notifyResponseV3">
+		<wsdl:part name="parameters" element="service3:notifyResponse"/>
 	</wsdl:message>
-	<wsdl:message name="getUnusedMailboxesFault">
-		<wsdl:part name="fault" element="service:getUnusedMailboxesFault" />
+	<wsdl:message name="deliverSecureRequestV3">
+		<wsdl:part name="parameters" element="service3:deliverSecure"/>
 	</wsdl:message>
-	<wsdl:message name="flagRemovedAccountsRequest">
-		<wsdl:part name="parameters" element="service:flagRemovedAccounts" />
+	<wsdl:message name="deliverSecureResponseV3">
+		<wsdl:part name="parameters" element="service3:deliverSecureResponse"/>
 	</wsdl:message>
-	<wsdl:message name="flagRemovedAccountsResponse">
-		<wsdl:part name="parameters" element="service:flagRemovedAccountsResponse" />
+	<wsdl:message name="deliverForwardRequestV3">
+		<wsdl:part name="parameters" element="service3:deliverForward"/>
 	</wsdl:message>
-	<wsdl:message name="flagRemovedAccountsFault">
-		<wsdl:part name="fault" element="service:flagRemovedAccountsFault" />
+	<wsdl:message name="deliverForwardResponseV3">
+		<wsdl:part name="parameters" element="service3:deliverForwardResponse"/>
 	</wsdl:message>
-    <wsdl:message name="deliverSecureRequest">
-    	<wsdl:part name="parameters" element="service:deliverSecure"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="deliverSecureResponse">
-    	<wsdl:part name="parameters" element="service:deliverSecureResponse"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="deliverSecureFault">
-    	<wsdl:part name="fault" element="service:deliverSecureFault"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="deliverForwardRequest">
-    	<wsdl:part name="parameters" element="service:deliverForward"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="deliverForwardResponse">
-    	<wsdl:part name="parameters" element="service:deliverForwardResponse"></wsdl:part>
-    </wsdl:message>
-    <wsdl:message name="deliverForwardFault">
-    	<wsdl:part name="fault" element="service:deliverForwardFault"></wsdl:part>
-    </wsdl:message>
-    <wsdl:portType name="ServicePort">
-        <wsdl:operation name="deliverReply">
-            <wsdl:input message="service:deliverReplyRequest" />
-            <wsdl:output message="service:deliverReplyResponse" />
-            <wsdl:fault name="fault" message="service:deliverReplyFault" />
-        </wsdl:operation>
-        <wsdl:operation name="deliverReceipt">
-            <wsdl:input message="service:deliverReceiptRequest" />
-            <wsdl:output message="service:deliverReceiptResponse" />
-            <wsdl:fault name="fault" message="service:deliverReceiptFault" />
-        </wsdl:operation>
-        <wsdl:operation name="notify">
-        	<wsdl:input message="service:notifyRequest"></wsdl:input>
-        	<wsdl:output message="service:notifyResponse"></wsdl:output>
-            <wsdl:fault name="fault" message="service:notifyFault"></wsdl:fault>
-        </wsdl:operation>
-		<wsdl:operation name="getUnusedMailboxes">
-			<wsdl:input message="service:getUnusedMailboxesRequest" />
-			<wsdl:output message="service:getUnusedMailboxesResponse" />
-			<wsdl:fault name="fault" message="service:getUnusedMailboxesFault" />
+	<wsdl:message name="applicationFaultV3">
+		<wsdl:part name="fault" element="common3:applicationFault"/>
+	</wsdl:message>
+	<wsdl:portType name="ServicePort-v3">
+		<wsdl:operation name="notify">
+			<wsdl:input message="tns:notifyRequestV3"/>
+			<wsdl:output message="tns:notifyResponseV3"/>
+			<wsdl:fault name="fault" message="tns:applicationFaultV3"/>
 		</wsdl:operation>
-		<wsdl:operation name="flagRemovedAccounts">
-			<wsdl:input message="service:flagRemovedAccountsRequest" />
-			<wsdl:output message="service:flagRemovedAccountsResponse" />
-			<wsdl:fault name="fault" message="service:flagRemovedAccountsFault" />
+		<wsdl:operation name="deliverSecure">
+			<wsdl:input message="tns:deliverSecureRequestV3"/>
+			<wsdl:output message="tns:deliverSecureResponseV3"/>
+			<wsdl:fault name="fault" message="tns:applicationFaultV3"/>
 		</wsdl:operation>
-        <wsdl:operation name="deliverSecure">
-        	<wsdl:input message="service:deliverSecureRequest"></wsdl:input>
-        	<wsdl:output message="service:deliverSecureResponse"></wsdl:output>
-            <wsdl:fault name="fault" message="service:deliverSecureFault"></wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="deliverForward">
-        	<wsdl:input message="service:deliverForwardRequest"></wsdl:input>
-        	<wsdl:output message="service:deliverForwardResponse"></wsdl:output>
-            <wsdl:fault name="fault" message="service:deliverForwardFault"></wsdl:fault>
-        </wsdl:operation>
-    </wsdl:portType>
-    <wsdl:binding name="ServiceBinding" type="service:ServicePort">
-        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-        <wsdl:operation name="deliverReply">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="deliverReceipt">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="notify">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-		<wsdl:operation name="getUnusedMailboxes">
-			<soap:operation soapAction="" />
+		<wsdl:operation name="deliverForward">
+			<wsdl:input message="tns:deliverForwardRequestV3"/>
+			<wsdl:output message="tns:deliverForwardResponseV3"/>
+			<wsdl:fault name="fault" message="tns:applicationFaultV3"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ServiceBinding-v3" type="tns:ServicePort-v3">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="notify">
+			<soap:operation soapAction=""/>
 			<wsdl:input>
-				<soap:body use="literal" />
+				<soap:body use="literal"/>
 			</wsdl:input>
 			<wsdl:output>
-				<soap:body use="literal" />
+				<soap:body use="literal"/>
 			</wsdl:output>
 			<wsdl:fault name="fault">
-				<soap:fault name="fault" use="literal" />
+				<soap:fault name="fault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="flagRemovedAccounts">
-			<soap:operation soapAction="" />
+		<wsdl:operation name="deliverSecure">
+			<soap:operation soapAction=""/>
 			<wsdl:input>
-				<soap:body use="literal" />
+				<soap:body use="literal"/>
 			</wsdl:input>
 			<wsdl:output>
-				<soap:body use="literal" />
+				<soap:body use="literal"/>
 			</wsdl:output>
 			<wsdl:fault name="fault">
-				<soap:fault name="fault" use="literal" />
+				<soap:fault name="fault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-        <wsdl:operation name="deliverSecure">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-        <wsdl:operation name="deliverForward">
-            <soap:operation soapAction=""/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-            <wsdl:fault name="fault">
-                <soap:fault name="fault" use="literal"/>
-            </wsdl:fault>
-        </wsdl:operation>
-    </wsdl:binding>
-    <wsdl:service name="Service">
-        <wsdl:port binding="service:ServiceBinding" name="ServicePort">
-            <soap:address location="http://minameddelanden.gov.se/Service"/>
-        </wsdl:port>
-    </wsdl:service>
+		<wsdl:operation name="deliverForward">
+			<soap:operation soapAction=""/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Service">
+		<wsdl:port name="ServicePort-v3" binding="tns:ServiceBinding-v3">
+			<soap:address location="http://minameddelanden.gov.se/Service/v3"/>
+		</wsdl:port>
+	</wsdl:service>
 </wsdl:definitions>

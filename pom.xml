@@ -23,7 +23,7 @@
 
     <properties>
         <project.builder.sourceEncoding>UTF-8</project.builder.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>        
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jetty.version>9.4.49.v20220914</jetty.version>
         <cxf.version>3.5.4</cxf.version>
         <sl4j.version>1.7.36</sl4j.version>
@@ -120,6 +120,11 @@
             <artifactId>gson</artifactId>
             <version>2.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.26</version>
+        </dependency>
 
         <!-- Command line option parsing -->
         <dependency>
@@ -180,10 +185,6 @@
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Authority.wsdl</wsdl>
                                     <wsdlLocation>classpath:META-INF/wsdl/Authority.wsdl</wsdlLocation>
-                                </wsdlOption>
-                                <wsdlOption>
-                                    <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Consent.wsdl</wsdl>
-                                    <wsdlLocation>classpath:META-INF/wsdl/Consent.wsdl</wsdlLocation>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <wsdl>${basedir}/src/main/resources/META-INF/wsdl/Message.wsdl</wsdl>

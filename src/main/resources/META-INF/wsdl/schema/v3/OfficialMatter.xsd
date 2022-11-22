@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofmv3="http://minameddelanden.gov.se/schema/OfficialMatter/v3"
+  targetNamespace="http://minameddelanden.gov.se/schema/OfficialMatter/v3"
+  elementFormDefault="qualified"
+  version="3.0">
+
+  <element name="OfficialMatterExtension" type="ofmv3:OfficialMatterExtension"/>
+
+  <complexType name="OfficialMatterExtension">
+    <annotation>
+      <documentation>Covers event information regarding an event in an official matter. If present, this message is an event message regarding an official matter. In the documentation this is named "Kundarende".</documentation>
+    </annotation>
+    <sequence>
+      <element name="Timestamp" type="date">
+        <annotation>
+          <documentation>The creation time and date for this message, originates from the sending system.</documentation>
+        </annotation>
+      </element>
+      <any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="Identity" minOccurs="0">
+        <annotation>
+          <documentation>The identity of an official matter is not mandatory, but it can be used to trace message conversations in the mailbox system and to enhance the experience for the end user.</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element name="EventId" type="ofmv3:idStringRestriction" minOccurs="0">
+              <annotation>
+                <documentation>The globally unique identification (GUID) for this message in an official matter. This is always unique. In documentation this is named "HandelseID (kopplat till Kundhandelse)".</documentation>
+              </annotation>
+            </element>
+            <element name="OfficialMatterId" type="ofmv3:idStringRestriction" minOccurs="0">
+              <annotation>
+                <documentation>Identification of the official matter. Many messages can belong to an official matter. In documentation this is named "KundarendeID (kopplat till ett Kundarende)".</documentation>
+              </annotation>
+            </element>
+            <element name="PrecedingEventId" type="ofmv3:idStringRestriction" minOccurs="0">
+              <annotation>
+                <documentation>The EventID of a previous event message. This can be a link between separate messages. Regardless of wheter they belong to the same official matter if they at all have an id of an official matter. In documentation this is named "KorrespondensID (koppling mellan olika kundhandelsemeddelanden".</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="MatterSubject" minOccurs="0">
+        <annotation>
+          <documentation>A subtype of subject, stating what this matter concerns. It can be used to loosely couple event messages (that do not have a hard coupling via correlationID), and could even span different government officals or other message producers. In documentation this is named "Kundamne".</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="2000"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="EventType" minOccurs="0">
+        <annotation>
+          <documentation>Describes a change of state, what new state an event puts an ongoing matter in. This is a textual representation, however it should be restricted so that unification between different actors is acheived. This restriction is not described in the schema but rather in the documents governing the rules of document content. In documentation this is named "Handelsetyp"</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="2000"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="MatterStatus" minOccurs="0">
+        <annotation>
+          <documentation>The state of a official matter, connected to a single event and message. During the course of time, a matter can have differnt states. Each event can change the state from one state to another, where the message/event keeps it state presentationas a an instant view of the matter. There can be three different states.</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="senderinitiative">
+              <annotation>
+                <documentation>This means that the sender has taken an initiative in a matter.</documentation>
+              </annotation>
+            </enumeration>
+            <enumeration value="recipientinitiative">
+              <annotation>
+                <documentation>This means that the recipient should take action in a matter, i.e. provide some kind of information in order to take the matter to the next step.</documentation>
+              </annotation>
+            </enumeration>
+            <enumeration value="closed">
+              <annotation>
+                <documentation>The matter is finished, will (probably) not generate any new events.</documentation>
+              </annotation>
+            </enumeration>
+          </restriction>
+        </simpleType>
+      </element>
+    </sequence>
+  </complexType>
+
+  <simpleType name="idStringRestriction">
+    <restriction base="string">
+      <maxLength value="255"/>
+    </restriction>
+  </simpleType>
+</schema>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://minameddelanden.gov.se/externalschema/Invoice/v1"
+        xmlns:ubl="urn:oasis:names:specification:ubl:schema:xsd:CurrencyCode-1.0"
+        elementFormDefault="qualified">
+
+    <import namespace="urn:oasis:names:specification:ubl:schema:xsd:CurrencyCode-1.0"
+            schemaLocation="../codelist/UBL-CodeList-CurrencyCode-1.0.xsd"/>
+
+    <element name="Invoice">
+        <annotation>
+            <documentation>This represents a piece of information regarding an invoice.</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="DueDate" type="date">
+                    <annotation>
+                        <documentation>The due date of the invoice.</documentation>
+                    </annotation>
+                </element>
+                <element name="Amount">
+                    <annotation>
+                        <documentation>The amount due on the invoice. The amount is presented as an integer value to avoid floating point problems. This means that the original amount is multiplied by 100, and the last digit is in Swedish ore, or cents in the case of Euro or USD. For examle a Swedish amount SEK 124,50:- (124 krona and 50 ore) is converted to the PositiveInteger 12450 value.</documentation>
+                    </annotation>
+                    <complexType>
+                        <simpleContent>
+                            <extension base="positiveInteger">
+                                <attribute name="CurrencyCode" type="ubl:CurrencyCodeContentType">
+                                    <annotation>
+                                        <documentation>The currency of the amount (Should normally be SEK).
+                                        </documentation>
+                                    </annotation>
+                                </attribute>
+                            </extension>
+                        </simpleContent>
+                    </complexType>
+                </element>
+                <element name="AccountMethod">
+                    <annotation>
+                        <documentation>The account method states which type of account that is in use. It can be either BG or PG.</documentation>
+                    </annotation>
+                    <simpleType>
+                        <restriction base="normalizedString">
+                            <enumeration value="BG">
+                                <annotation>
+                                    <documentation>Bankgiro</documentation>
+                                </annotation>
+                            </enumeration>
+                            <enumeration value="PG">
+                                <annotation>
+                                    <documentation>Postgiro</documentation>
+                                </annotation>
+                            </enumeration>
+                        </restriction>
+                    </simpleType>
+                </element>
+                <element name="AccountNumber" type="string">
+                    <annotation>
+                        <documentation>The tenants account number.</documentation>
+                    </annotation>
+                </element>
+                <element name="OcrNumber" type="string" minOccurs="0">
+                    <annotation>
+                        <documentation>The OCR number for the invoice may be required by the bank. If a OCR number is not accepted, this element may contain a bank statement message instead.
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>

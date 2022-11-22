@@ -1,0 +1,26 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Maven package
+
+on: [push, pull_request]
+
+jobs:
+
+  unittests:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java-version: [8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'adopt'
+
+      - name: Run tests
+        run: |
+          mvn package

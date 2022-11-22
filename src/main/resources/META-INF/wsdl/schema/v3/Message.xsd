@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:messagev1="http://minameddelanden.gov.se/schema/Message"
+  xmlns:messagev2="http://minameddelanden.gov.se/schema/Message/v2"
+  xmlns:messagev3="http://minameddelanden.gov.se/schema/Message/v3"
+  xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+  xmlns:receipt="http://minameddelanden.gov.se/schema/Receipt"
+  xmlns:reply="http://minameddelanden.gov.se/schema/Reply"
+  xmlns:ofmv3="http://minameddelanden.gov.se/schema/OfficialMatter/v3"
+  xmlns:sig="http://www.w3.org/2000/09/xmldsig#"
+  targetNamespace="http://minameddelanden.gov.se/schema/Message/v3"
+  elementFormDefault="qualified"
+  version="3.0">
+
+  <import namespace="http://minameddelanden.gov.se/schema/Recipient" schemaLocation="../Recipient.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Message" schemaLocation="../Message.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Receipt" schemaLocation="../Receipt.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Reply" schemaLocation="../Reply.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Message/v2" schemaLocation="../v2/Message.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/OfficialMatter/v3" schemaLocation="OfficialMatter.xsd"/>
+  <import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="../xmldsig-core-schema.xsd"/>
+
+  <element name="distributeSecure">
+    <complexType>
+      <sequence>
+        <element name="signedDelivery" type="messagev3:SignedDelivery" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="distributeSecureResponse">
+    <complexType>
+      <sequence>
+        <element name="return" type="string" minOccurs="1" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="checkDistributionStatus">
+    <complexType>
+      <sequence>
+        <element name="senderId" type="recipient:RecipientId" minOccurs="1" maxOccurs="1"/>
+        <element name="distributionId" minOccurs="1" maxOccurs="1">
+          <simpleType>
+            <restriction base="string">
+              <minLength value="1"/>
+              <maxLength value="50"/>
+            </restriction>
+          </simpleType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="checkDistributionStatusResponse">
+    <complexType>
+      <sequence>
+        <element name="return" type="messagev1:DistributionStatus" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="SignedDelivery">
+    <sequence>
+      <element name="Delivery" type="messagev3:SecureDelivery" minOccurs="1" maxOccurs="1"/>
+      <element ref="sig:Signature" minOccurs="1" maxOccurs="1"/>
+    </sequence>
+    <attribute name="Id" type="ID" use="optional"/>
+  </complexType>
+
+  <complexType name="SecureDelivery">
+    <sequence>
+      <element name="Header" type="messagev2:SecureDeliveryHeader" minOccurs="1" maxOccurs="1"/>
+      <element name="Message" type="messagev3:SecureMessage" minOccurs="1" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="SealedDelivery">
+    <sequence>
+      <element name="SignedDelivery" type="messagev3:SignedDelivery" minOccurs="1" maxOccurs="1"/>
+      <element name="Seal" type="messagev1:Seal" minOccurs="1" maxOccurs="1"/>
+      <element ref="sig:Signature" minOccurs="1" maxOccurs="1"/>
+    </sequence>
+    <attribute name="Id" type="ID" use="optional"/>
+  </complexType>
+
+  <complexType name="SecureMessage">
+    <sequence>
+      <element name="Header" type="messagev3:MessageHeader" minOccurs="1" maxOccurs="1"/>
+      <element name="Body" type="messagev1:MessageBody" minOccurs="1" maxOccurs="1"/>
+      <element name="Attachment" type="messagev1:Attachment" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="MessageHeader">
+    <sequence>
+      <element name="Id" type="string" minOccurs="1" maxOccurs="1"/>
+      <element name="Subject" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="255"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="Supportinfo" type="messagev3:SupportInfo" minOccurs="1" maxOccurs="1"/>
+      <element name="OfficialMatter" type="messagev3:OfficialMatter" minOccurs="0" maxOccurs="1"/>
+      <element name="Metadata" type="messagev1:MetaData" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="Language" type="language" minOccurs="1" maxOccurs="1"/>
+      <element name="Reply" type="reply:ReplyOptions" minOccurs="0" maxOccurs="1"/>
+      <element name="ReceiptRequest" type="receipt:ReceiptOptions" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="SupportInfo">
+    <sequence>
+      <element name="Text" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="1024"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="URL" minOccurs="0" maxOccurs="1">
+        <simpleType>
+          <restriction base="anyURI">
+            <maxLength value="255"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="PhoneNumber" minOccurs="0" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <maxLength value="255"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="EmailAdress" type="recipient:EMailAdress" minOccurs="0" maxOccurs="1"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="OfficialMatter">
+    <annotation>
+      <documentation>Covers event information regarding an event in an official matter. If present, this message is an event message regarding an official matter. In the documentation this is named "Kundarende".</documentation>
+    </annotation>
+    <choice>
+      <any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="OfficialMatterExtension" type="ofmv3:OfficialMatterExtension"/>
+    </choice>
+  </complexType>
+</schema>

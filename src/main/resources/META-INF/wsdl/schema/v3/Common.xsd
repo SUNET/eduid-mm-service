@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:commonv3="http://minameddelanden.gov.se/schema/Common/v3"
+  targetNamespace="http://minameddelanden.gov.se/schema/Common/v3"
+  elementFormDefault="qualified"
+  version="3.0">
+
+  <complexType name="ExceptionInformation">
+    <sequence>
+      <element name="ErrorCode" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="int">
+            <minExclusive value="0"/>
+            <maxExclusive value="9999"/>
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="Description" type="string" minOccurs="1" maxOccurs="1"/>
+      <element name="CallId" minOccurs="1" maxOccurs="1">
+        <simpleType>
+          <restriction base="string">
+            <minLength value="20"/>
+            <maxLength value="50"/>
+          </restriction>
+        </simpleType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="applicationFault" type="commonv3:ExceptionInformation"/>
+</schema>

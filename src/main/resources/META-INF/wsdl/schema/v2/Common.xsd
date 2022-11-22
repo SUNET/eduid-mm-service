@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:commonv2="http://minameddelanden.gov.se/schema/Common/v2" targetNamespace="http://minameddelanden.gov.se/schema/Common/v2" elementFormDefault="qualified">
+    <annotation>
+        <documentation>Version 2.0</documentation>
+    </annotation>
+    <simpleType name="OrganizationNumber">
+        <restriction base="string">
+            <length value="12"/>
+            <pattern value="16\d{10}"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="IdentificationNumber">
+        <restriction base="string">
+            <pattern value="(16[2-9]\d{9})|((18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{4})|((18|19|20)\d{2}(0[1-9]|1[0-2])(\d{2})\d{4})"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="EMailAdress">
+        <restriction base="string">
+            <minLength value="5"/>
+            <maxLength value="256"/>
+            <pattern value=".+@.+\..+"/>
+        </restriction>
+    </simpleType>
+</schema>

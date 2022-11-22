@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:notification="http://minameddelanden.gov.se/schema/Notification" xmlns:notification2="http://minameddelanden.gov.se/schema/Notification/v2" xmlns:message="http://minameddelanden.gov.se/schema/Message" xmlns:common2="http://minameddelanden.gov.se/schema/Common/v2" targetNamespace="http://minameddelanden.gov.se/schema/Notification/v2" elementFormDefault="qualified">
+    <import namespace="http://minameddelanden.gov.se/schema/Message" schemaLocation="../Message.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Common/v2" schemaLocation="Common.xsd"/>
+    <complexType name="NotificationMessage">
+        <annotation>
+            <documentation/>
+        </annotation>
+        <sequence>
+            <element name="header" type="message:MessageHeader"/>
+            <element name="body" type="message:MessageBody"/>
+        </sequence>
+    </complexType>
+    <complexType name="EmailMessage">
+        <sequence>
+            <element name="header">
+                <complexType>
+                    <sequence>
+                        <element name="From" type="common2:EMailAdress"/>
+                        <element name="Subject">
+                            <simpleType>
+                                <restriction base="string">
+                                    <maxLength value="254"/>
+                                </restriction>
+                            </simpleType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="text" type="string"/>
+        </sequence>
+    </complexType>
+    <complexType name="SmsMessage">
+        <sequence>
+            <element name="header">
+                <complexType>
+                    <sequence>
+                        <element name="From">
+                            <simpleType>
+                                <restriction base="string">
+                                    <maxLength value="11"/>
+                                </restriction>
+                            </simpleType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="text">
+                <simpleType>
+                    <restriction base="string">
+                        <maxLength value="160"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="NotificationDelivery">
+        <sequence>
+            <element name="Header" type="message:DeliveryHeader"/>
+            <element name="Message" type="notification2:NotificationMessage"/>
+            <element name="EmailMessage" type="notification2:EmailMessage" minOccurs="0"/>
+            <element name="SmsMessage" type="notification2:SmsMessage" minOccurs="0"/>
+        </sequence>
+    </complexType>
+    <element name="distributeRequest">
+        <complexType>
+            <sequence>
+                <element name="notificationDelivery" type="notification2:NotificationDelivery"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="NotificationMessage" type="notification2:NotificationMessage" />
+    <element name="EmailMessage" type="notification2:EmailMessage" />
+    <element name="SmsMessage" type="notification2:SmsMessage" />
+</schema>
