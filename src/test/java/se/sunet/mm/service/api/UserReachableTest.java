@@ -30,7 +30,7 @@ public class UserReachableTest extends SetupCommon {
         //        "Secure", "https://twww.smartrefill.se/PostServer/ws/government/Service");
         // ServiceAddress changed for the test data unexpectedly
         UserReachable.Response expectedResponse = new UserReachable.Response(Boolean.TRUE, TEST_PERSON_NIN,
-                        "Secure", "https://notarealhost.skatteverket.se/webservice/accao/Service");
+                        "Secure", "https://notarealhost.skatteverket.se/webservice/acc1accao/Service/v3");
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(server.getURI()).path(servletPath);
         HashMap<String, String> data = new HashMap<>();
