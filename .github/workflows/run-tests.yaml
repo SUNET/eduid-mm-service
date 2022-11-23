@@ -1,0 +1,24 @@
+
+name: Maven package
+
+on: [push, pull_request]
+
+jobs:
+
+  unittests:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        java-version: [8]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'adopt'
+
+      - name: Run tests
+        run: |
+          mvn package
