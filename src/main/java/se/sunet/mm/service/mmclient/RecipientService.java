@@ -1,7 +1,7 @@
 package se.sunet.mm.service.mmclient;
 
 import se.gov.minameddelanden.recipient.Recipient;
-import se.gov.minameddelanden.recipient.RecipientPort;
+import se.gov.minameddelanden.recipient.RecipientPortV3;
 import se.gov.minameddelanden.schema.recipient.AccountTypes;
 import se.gov.minameddelanden.schema.recipient.ReachabilityStatus;
 
@@ -45,7 +45,7 @@ public class RecipientService extends ClientBase {
      * @throws Exception
      */
     public ReachabilityStatus isReachable(String nationalIdentityNumber) throws Exception {
-        RecipientPort port = getPort(RecipientPort.class, Recipient.class, serviceEndpoint);
+        RecipientPortV3 port = getPort(RecipientPortV3.class, Recipient.class, serviceEndpoint);
         List<String> recipients = new ArrayList<>();
         recipients.add(nationalIdentityNumber);
 

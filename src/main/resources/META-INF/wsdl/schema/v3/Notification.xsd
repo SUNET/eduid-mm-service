@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:notification="http://minameddelanden.gov.se/schema/Notification"
+  xmlns:notification2="http://minameddelanden.gov.se/schema/Notification/v2"
+  xmlns:notification3="http://minameddelanden.gov.se/schema/Notification/v3"
+  xmlns:message="http://minameddelanden.gov.se/schema/Message"
+  xmlns:message3="http://minameddelanden.gov.se/schema/Message/v3"
+  xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
+  xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
+  targetNamespace="http://minameddelanden.gov.se/schema/Notification/v3"
+  elementFormDefault="qualified"
+  version="3.0">
+
+  <import namespace="http://minameddelanden.gov.se/schema/Message" schemaLocation="../Message.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Notification" schemaLocation="../Notification.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Notification/v2" schemaLocation="../v2/Notification.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Message/v2" schemaLocation="../v2/Message.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Message/v3" schemaLocation="../v3/Message.xsd"/>
+  <import namespace="http://minameddelanden.gov.se/schema/Sender" schemaLocation="../Sender.xsd" />
+  <import namespace="http://minameddelanden.gov.se/schema/Recipient" schemaLocation="../Recipient.xsd" />
+
+  <complexType name="NotificationMessage">
+    <annotation>
+      <documentation/>
+    </annotation>
+    <sequence>
+      <element name="header" type="message3:MessageHeader"/>
+      <element name="body" type="message:MessageBody"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="NotificationDelivery">
+    <sequence>
+      <element name="Header" type="message:DeliveryHeader"/>
+      <element name="Message" type="notification3:NotificationMessage"/>
+      <element name="EmailMessage" type="notification2:EmailMessage" minOccurs="0"/>
+      <element name="SmsMessage" type="notification2:SmsMessage" minOccurs="0"/>
+    </sequence>
+  </complexType>
+
+  <element name="distribute">
+    <complexType>
+      <sequence>
+        <element name="notificationDelivery" type="notification3:NotificationDelivery"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="distributeResponse">
+    <complexType>
+      <sequence>
+        <element name="return" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="checkDistributionStatus">
+    <complexType>
+      <sequence>
+        <element name="sender" type="sender:OrganizationNumber" />
+        <element name="distributionId" >
+          <simpleType>
+            <restriction base="string">
+              <minLength value="1"/>
+              <maxLength value="50"/>
+            </restriction>
+          </simpleType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="checkDistributionStatusResponse">
+    <complexType>
+      <sequence>
+        <element name="return" type="notification3:NotificationStatus" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <complexType name="NotifyResult">
+    <sequence>
+      <element name="TransId" type="string" ></element>
+      <element name="Status" type="notification3:NotificationStatus" minOccurs="1" maxOccurs="unbounded"></element>
+    </sequence>
+  </complexType>
+
+  <complexType name="NotificationStatus">
+    <sequence>
+      <element name="RecipientId" type="recipient:RecipientId"/>
+      <element name="DeliveryStatus" type="notification3:DeliveryStatus"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="DeliveryStatus">
+    <sequence>
+      <element name="DeliveredFlag" type="boolean">
+        <annotation>
+          <documentation>The flag represents wether the message was delivered (true) or not (false).</documentation>
+        </annotation>
+      </element>
+      <element name="NotifiedByChannel" minOccurs="0" maxOccurs="2" type="notification3:NotificationTypes">
+        <annotation>
+          <documentation>The notification channel is represented by the type (SMS and/or eMail) if present. This can only be set if the message is delivered, i.e. the "DeliveredFlag" = True.</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <simpleType name="NotificationTypes">
+    <restriction base="string">
+      <enumeration value="SMS"></enumeration>
+      <enumeration value="EMail"></enumeration>
+    </restriction>
+  </simpleType>
+
+</schema>

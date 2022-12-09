@@ -4,11 +4,14 @@ import se.gov.minameddelanden.common.CertificateUtils;
 import se.gov.minameddelanden.common.SignedXml;
 import se.gov.minameddelanden.common.X509CertificateWithPrivateKey;
 import se.gov.minameddelanden.common.Xml;
-import se.gov.minameddelanden.schema.message.*;
+import se.gov.minameddelanden.schema.message.MessageBody;
+import se.gov.minameddelanden.schema.message.Seal;
+import se.gov.minameddelanden.schema.message.v2.SecureDeliveryHeader;
+import se.gov.minameddelanden.schema.message.v3.*;
 import se.gov.minameddelanden.schema.sender.Sender;
 import se.gov.minameddelanden.schema.service.DeliveryResult;
 import se.gov.minameddelanden.service.Service;
-import se.gov.minameddelanden.service.ServicePort;
+import se.gov.minameddelanden.service.ServicePortV3;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -38,7 +41,7 @@ public class ServiceService extends ClientBase {
                                                 String language,
                                                 String contentType) throws Exception {
         SecureDelivery secureDelivery = new SecureDelivery();
-        DeliveryHeader header = createDeliveryHeader(recipient);
+        SecureDeliveryHeader header = createDeliveryHeader(recipient);
         secureDelivery.setHeader(header);
 
         SecureMessage secureMessage = new SecureMessage();
@@ -57,18 +60,18 @@ public class ServiceService extends ClientBase {
 
         RecipientService recipientService = new RecipientService(getWsBaseEndpoint(), senderInformation.getSenderOrganisationNumber());
         String url = recipientService.getServiceAddress(recipient);
-        ServicePort servicePort = getPort(ServicePort.class, Service.class, url);
+        ServicePortV3 servicePort = getPort(ServicePortV3.class, Service.class, url);
 
         return servicePort.deliverSecure(sealedDelivery);
     }
 
-    private DeliveryHeader createDeliveryHeader(String recipient) {
-        DeliveryHeader header  = new DeliveryHeader();
+    private SecureDeliveryHeader createDeliveryHeader(String recipient) {
+        SecureDeliveryHeader header  = new SecureDeliveryHeader();
         Sender sender = new Sender();
         sender.setId(senderInformation.getSenderOrganisationNumber());
         sender.setName(senderInformation.getSenderName());
         header.setSender(sender);
-        header.getRecipient().add(recipient);
+        header.setRecipient(recipient);
 
         return header;
     }

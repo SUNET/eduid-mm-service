@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    xmlns:commonv1="http://minameddelanden.gov.se/schema/Common"
+    xmlns:commonv3="http://minameddelanden.gov.se/schema/Common/v3"
+    xmlns:recipientv1="http://minameddelanden.gov.se/schema/Recipient"
+    xmlns:authorityv1="http://minameddelanden.gov.se/schema/Authority"
+    xmlns:senderv1="http://minameddelanden.gov.se/schema/Sender"
+    targetNamespace="http://minameddelanden.gov.se/schema/Recipient/v3"
+    elementFormDefault="qualified"
+    version="3.0">
+
+    <import namespace="http://minameddelanden.gov.se/schema/Common" schemaLocation="../Common.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Common/v3" schemaLocation="Common.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Recipient" schemaLocation="../Recipient.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Authority" schemaLocation="../Authority.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Sender" schemaLocation="../Sender.xsd"/>
+
+    <element name="getAccountPreferences">
+        <complexType>
+            <sequence>
+                <element name="RecipientId" type="recipientv1:RecipientId" minOccurs="1" maxOccurs="1"/>
+                <element name="UserIdentity" type="authorityv1:UserIdentity" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getAccountPreferencesResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv1:AccountPreferences" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isReachable">
+        <complexType>
+            <sequence>
+                <element name="senderOrgNr" type="senderv1:OrganizationNumber" minOccurs="1" maxOccurs="1"/>
+                <element name="recipientId" type="recipientv1:RecipientId" minOccurs="0" maxOccurs="1000"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isReachableResponse">
+        <complexType>
+            <sequence>
+				<element name="return" type="recipientv1:ReachabilityStatus" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isRegistered">
+        <complexType>
+            <sequence>
+                <element name="recipientId" type="recipientv1:RecipientId" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="isRegisteredResponse">
+        <complexType>
+            <sequence>
+				<element name="return" type="recipientv1:AccountStatus" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="register">
+        <complexType>
+            <sequence>
+                <element name="accountRequest" type="recipientv1:AccountRequest" minOccurs="1" maxOccurs="1"/>
+                <element name="accountType" type="recipientv1:AccountTypes" minOccurs="1" maxOccurs="1"/>
+                <element name="signature" type="commonv1:SignatureData" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="registerResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="authorityv1:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deregister">
+        <complexType>
+            <sequence>
+                <element name="deregisterAccount" type="recipientv1:AccountRequest" minOccurs="1" maxOccurs="1"/>
+                <element name="signature" type="commonv1:SignatureData" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deregisterResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="authorityv1:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingAccountRequest">
+        <complexType>
+            <sequence>
+                <element name="recipientId" type="recipientv1:RecipientId" minOccurs="0" maxOccurs="unbounded"/>
+                <element name="userIdentity" type="authorityv1:UserIdentity" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="getPendingAccountRequestResponse">
+        <complexType>
+            <sequence>
+                <element name="return" type="recipientv1:PendingAccountRequest" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingAccountRequest">
+        <complexType>
+            <sequence>
+                <element name="recipientId" type="recipientv1:RecipientId" minOccurs="1" maxOccurs="1"/>
+                <element name="userIdentity" type="authorityv1:UserIdentity" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="deletePendingAccountRequestResponse">
+        <complexType>
+            <sequence/>
+        </complexType>
+    </element>
+</schema>

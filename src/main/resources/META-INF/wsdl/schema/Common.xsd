@@ -1,64 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://minameddelanden.gov.se/schema/Common"
-        elementFormDefault="qualified"
-        xmlns="http://www.w3.org/2001/XMLSchema"
-        xmlns:common="http://minameddelanden.gov.se/schema/Common">
-
-    <complexType name="Paging">
-    	<sequence>
-    		<element name="PageNumber" type="int" minOccurs="1"
-    			maxOccurs="1">
-    		</element>
-    		<element name="MaxRows" type="int" minOccurs="1" maxOccurs="1"></element>
-    	</sequence>
-    </complexType>
-
-
-    <complexType name="ExceptionInformation">
-    	<sequence>
-    		<element name="ErrorCode" minOccurs="1" maxOccurs="1">
-    			<simpleType>
-    				<restriction base="int">
-    					<minExclusive value="1"></minExclusive>
-    					<maxExclusive value="9999"></maxExclusive>
-    				</restriction>
-    			</simpleType>
-    		</element>
-    		<element name="Description" type="string" minOccurs="1"
-    			maxOccurs="1">
-    		</element>
-    		<element name="CallId" minOccurs="1" maxOccurs="1">
-    			<simpleType>
-    				<restriction base="string">
-    					<minLength value="20"></minLength>
-    					<maxLength value="50"></maxLength>
-    				</restriction>
-    			</simpleType>
-    		</element>
-    	</sequence>
-    </complexType>
-
-    <simpleType name="ErrorCodes">
-    	<restriction base="int">
-    		<minInclusive value="0"></minInclusive>
-    		<maxInclusive value="9999"></maxInclusive>
-    		<enumeration value="4999"></enumeration>
-    		<enumeration value="5000"></enumeration>
-    		<enumeration value="5001"></enumeration>
-    		<enumeration value="5002"></enumeration>
-    		<enumeration value="5003"></enumeration>
-    		<enumeration value="5004"></enumeration>
-    		<enumeration value="5005"></enumeration>
-    		<enumeration value="6004"></enumeration>
-    	</restriction>
-    </simpleType>
-
-    <complexType name="SignatureData">
-    	<sequence>
-    		<element name="Signature" type="base64Binary" minOccurs="1" maxOccurs="1"/>
-    		<element name="Certificate" type="string" minOccurs="1" maxOccurs="1"/>
-    		<element name="Nonce" type="string" minOccurs="0" maxOccurs="1"/>
-            <element name="EncodingOfSignedText" type="string" minOccurs="0" maxOccurs="1" default="UTF-8"/>
-    	</sequence>
-    </complexType>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:common="http://minameddelanden.gov.se/schema/Common" targetNamespace="http://minameddelanden.gov.se/schema/Common" elementFormDefault="qualified">
+	<complexType name="Paging">
+		<sequence>
+			<element name="PageNumber" type="int" minOccurs="1" maxOccurs="1"/>
+			<element name="MaxRows" type="int" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="ExceptionInformation">
+	<annotation>
+	<documentation>Deprecated, use overriding type in schema/Common/v3 instead</documentation></annotation>
+		<sequence>
+			<element name="ErrorCode" minOccurs="1" maxOccurs="1">
+				<simpleType>
+					<restriction base="int">
+						<minExclusive value="1"/>
+						<maxExclusive value="9999"/>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="Description" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="CallId" minOccurs="1" maxOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<minLength value="20"/>
+						<maxLength value="50"/>
+					</restriction>
+				</simpleType>
+			</element>
+		</sequence>
+	</complexType>
+	<simpleType name="ErrorCodes">
+		<restriction base="int">
+			<minInclusive value="0"/>
+			<maxInclusive value="9999"/>
+			<enumeration value="4999"/>
+			<enumeration value="5000"/>
+			<enumeration value="5001"/>
+			<enumeration value="5002"/>
+			<enumeration value="5003"/>
+			<enumeration value="5004"/>
+			<enumeration value="5005"/>
+			<enumeration value="6004"/>
+		</restriction>
+	</simpleType>
+	<complexType name="SignatureData">
+		<sequence>
+			<element name="Signature" type="base64Binary" minOccurs="1" maxOccurs="1"/>
+			<element name="Certificate" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="Nonce" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="EncodingOfSignedText" type="string" default="UTF-8" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
 </schema>

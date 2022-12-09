@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:message2="http://minameddelanden.gov.se/schema/Message/v2" xmlns:notification2="http://minameddelanden.gov.se/schema/Notification/v2" xmlns:ns1="http://minameddelanden.gov.se/schema/Service/v2" targetNamespace="http://minameddelanden.gov.se/schema/Service/v2" elementFormDefault="qualified">
+    <import namespace="http://minameddelanden.gov.se/schema/Message/v2" schemaLocation="Message.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Notification/v2" schemaLocation="Notification.xsd"/>
+    <element name="deliverSecure">
+        <complexType>
+            <sequence>
+                <element name="deliverSecure" type="message2:SealedDelivery" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="notify">
+        <complexType>
+            <sequence>
+                <element name="notify" type="notification2:NotificationDelivery" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

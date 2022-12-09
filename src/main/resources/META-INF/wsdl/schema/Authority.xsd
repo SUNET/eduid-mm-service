@@ -5,77 +5,77 @@
         xmlns:authority="http://minameddelanden.gov.se/schema/Authority"
         xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient">
 
-	<import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"></import>
+    <import schemaLocation="Recipient.xsd" namespace="http://minameddelanden.gov.se/schema/Recipient"></import>
         
     <simpleType name="PersonalNumber">
-    	<restriction base="string">
-    		<length value="12"></length>
-    		<pattern value="18\d{10}|19\d{10}|20\d{10}"></pattern>
-    	</restriction>
+        <restriction base="string">
+            <length value="12"></length>
+            <pattern value="18\d{10}|19\d{10}|20\d{10}"></pattern>
+        </restriction>
     </simpleType>
     
     <simpleType name="UserIdentity">
-    	<restriction base="string">
-    		<pattern
-    			value="(18\d{10}|19\d{10}|20\d{10})|([a-z]{2,2}.*)">
-    		</pattern>
-    		<maxLength value="255"></maxLength>
-    		<minLength value="12"></minLength>
-    	</restriction>
+        <restriction base="string">
+            <pattern
+                value="(18\d{10}|19\d{10}|20\d{10})|([a-z]{2,2}.*)">
+            </pattern>
+            <maxLength value="255"></maxLength>
+            <minLength value="12"></minLength>
+        </restriction>
     </simpleType>
 
     <complexType name="Person">
-    	<sequence>
-    		<element name="Id" type="authority:PersonalNumber"
-    			minOccurs="1" maxOccurs="1">
-    		</element>
-    		<element name="Name" type="string" minOccurs="1" maxOccurs="1"></element>
-    	</sequence>
+        <sequence>
+            <element name="Id" type="authority:PersonalNumber"
+                         minOccurs="1" maxOccurs="1">
+            </element>
+            <element name="Name" type="string" minOccurs="1" maxOccurs="1"></element>
+        </sequence>
     </complexType>
     
     <simpleType name="AuthorizationStatus">
-    	<restriction base="string">
-    		<!-- Inskickad data är tillräcklig för firmateckning -->
-    		<enumeration value="Complete" />
+        <restriction base="string">
+            <!-- Inskickad data är tillräcklig för firmateckning -->
+            <enumeration value="Complete" />
 
-    		<!-- Inskickad data måste kompletteras för firmateckning -->
-    		<enumeration value="Incomplete" />
+            <!-- Inskickad data måste kompletteras för firmateckning -->
+            <enumeration value="Incomplete" />
     		
-    		<!-- Firmateckningsreglerna går inte att tolka -->
-    		<enumeration value="RulesNotSupported" />
-    	</restriction>
+            <!-- Firmateckningsreglerna går inte att tolka -->
+            <enumeration value="RulesNotSupported" />
+        </restriction>
     </simpleType>
 
     <complexType name="SignatureAuthorizationResult">
-    	<sequence>
-    		<element name="Id" type="recipient:RecipientId"
-    			minOccurs="1" maxOccurs="1" />
-    		<element name="SignedBy" type="authority:Person"
-                minOccurs="0" maxOccurs="unbounded"/>
-    		<element name="Status" type="authority:AuthorizationStatus"
-    			minOccurs="1" maxOccurs="1" />
-    		<element name="Timestamp" type="dateTime" minOccurs="0"
-    			maxOccurs="1" />
-    		<element name="Text" type="string" minOccurs="1"
-    			maxOccurs="1" />
-    		<element name="PossibleSigners" type="authority:Person"
-    			minOccurs="0" maxOccurs="unbounded" />
-    	</sequence>
+        <sequence>
+            <element name="Id" type="recipient:RecipientId"
+                         minOccurs="0" maxOccurs="1" />
+            <element name="SignedBy" type="authority:Person"
+                         minOccurs="0" maxOccurs="unbounded"/>
+            <element name="Status" type="authority:AuthorizationStatus"
+                         minOccurs="0" maxOccurs="1" />
+            <element name="Timestamp" type="dateTime" minOccurs="0"
+                         maxOccurs="1" />
+            <element name="Text" type="string" minOccurs="0"
+                         maxOccurs="1" />
+            <element name="PossibleSigners" type="authority:Person"
+                         minOccurs="0" maxOccurs="unbounded" />
+        </sequence>
     </complexType>
 
     <simpleType name="AccountActions">
-    	<restriction base="string">
-    		<enumeration value="Ownership"></enumeration>
-			<enumeration value="CancelConsent"></enumeration>
-    	</restriction>
+        <restriction base="string">
+            <enumeration value="Ownership"></enumeration>
+            <enumeration value="CancelConsent"></enumeration>
+        </restriction>
     </simpleType>
 
     <complexType name="UserAccessRightsResult">
         <sequence>
             <element name="Rights" type="authority:UserAccessRights"
-                minOccurs="0" maxOccurs="unbounded"/>
+                     minOccurs="0" maxOccurs="unbounded"/>
             <element name="Problems" type="authority:UserAccessRightsProblem"
-                minOccurs="0" maxOccurs="unbounded"/>
+                     minOccurs="0" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
 
@@ -104,31 +104,42 @@
     </complexType>
 
     <complexType name="UserAccessRights">
-    	<sequence>
-    		<element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-    		<element name="OrganizationName" type="string" minOccurs="0" maxOccurs="1" />
-    		<element name="UserIdentity" type="authority:UserIdentity" minOccurs="1" maxOccurs="1" />
-    		<element name="GrantedAccess" type="authority:UserActivities" minOccurs="0" maxOccurs="unbounded" />
-    		<element name="GrantType" type="authority:GrantTypes" minOccurs="1" maxOccurs="1" />
-    		<element name="Role" type="string" minOccurs="0" maxOccurs="1" />
-    	</sequence>
+        <sequence>
+            <element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
+            <element name="OrganizationName" type="string" minOccurs="0" maxOccurs="1" />
+            <element name="UserIdentity" type="authority:UserIdentity" minOccurs="1" maxOccurs="1" />
+            <element name="GrantedAccess" type="authority:UserActivities" minOccurs="0" maxOccurs="unbounded" />
+            <element name="GrantType" type="authority:GrantTypes" minOccurs="1" maxOccurs="1" />
+            <element name="Role" type="string" minOccurs="0" maxOccurs="1" />
+        </sequence>
     </complexType>
 
     <simpleType name="UserActivities">
-    	<restriction base="string">
-    		<enumeration value="View"></enumeration>
+        <restriction base="string">
+            <enumeration value="View"></enumeration>
             <enumeration value="ForwardMessage"></enumeration>
-    		<enumeration value="InitiateAccountAction"></enumeration>
-    		<enumeration value="InitiateConsentAction"></enumeration>
-    		<enumeration value="EditSettings"></enumeration>
-    	</restriction>
+            <enumeration value="InitiateAccountAction"></enumeration>
+            <enumeration value="InitiateConsentReadAction"></enumeration>
+            <enumeration value="InitiateConsentManageAction"></enumeration>
+            <enumeration value="EditSettings"></enumeration>
+            <enumeration value="EditSettingsFrom"></enumeration>
+            <enumeration value="EditSettingsForward"></enumeration>
+            <enumeration value="EditSettingsContact"></enumeration>
+            <enumeration value="EditSettingsConsent"></enumeration>
+            <enumeration value="EditSettingsAddressbook"></enumeration>
+            <enumeration value="EditSettingsInactivate"></enumeration>
+            
+            <enumeration value="InitiateConsentAction"></enumeration>
+        </restriction>
     </simpleType>
 
     <simpleType name="GrantTypes">
-    	<restriction base="string">
-			<enumeration value="AuthorizedSignatory"></enumeration>
+        <restriction base="string">
+            <enumeration value="AuthorizedSignatory"></enumeration>
             <enumeration value="AuthorizedRole"></enumeration>
-    		<enumeration value="Consent"></enumeration>
-		</restriction>
+            <enumeration value="ConsentManage"></enumeration>
+            <enumeration value="ConsentReadExtendUnread"></enumeration>
+            <enumeration value="ConsentRead"></enumeration>
+        </restriction>
     </simpleType>
 </schema>

@@ -1,110 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://minameddelanden.gov.se/schema/Recipient"
-        elementFormDefault="qualified"
-        xmlns="http://www.w3.org/2001/XMLSchema"
-        xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient"
-        xmlns:authority="http://minameddelanden.gov.se/schema/Authority"
-        xmlns:sender="http://minameddelanden.gov.se/schema/Sender"
-        xmlns:common="http://minameddelanden.gov.se/schema/Common">
-
-	<import schemaLocation="Authority.xsd" namespace="http://minameddelanden.gov.se/schema/Authority" />
-    <import schemaLocation="Common.xsd" namespace="http://minameddelanden.gov.se/schema/Common" />
-    <import schemaLocation="Sender.xsd" namespace="http://minameddelanden.gov.se/schema/Sender" />
-
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:recipient="http://minameddelanden.gov.se/schema/Recipient" xmlns:authority="http://minameddelanden.gov.se/schema/Authority" xmlns:sender="http://minameddelanden.gov.se/schema/Sender" xmlns:common="http://minameddelanden.gov.se/schema/Common" targetNamespace="http://minameddelanden.gov.se/schema/Recipient" elementFormDefault="qualified">
+    <import namespace="http://minameddelanden.gov.se/schema/Authority" schemaLocation="Authority.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Common" schemaLocation="Common.xsd"/>
+    <import namespace="http://minameddelanden.gov.se/schema/Sender" schemaLocation="Sender.xsd"/>
     <simpleType name="RecipientId">
-    	<restriction base="string">
-    		<pattern value="(16[2-9]\d{9})|((18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{4})|((18|19|20)\d{2}(0[1-9]|1[0-2])(\d{2})\d{4})" />
-    	</restriction>
+        <restriction base="string">
+            <pattern value="(16\d{10})|((18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{4})|((18|19|20)\d{2}(0[1-9]|1[0-2])(\d{2})\d{4})"/>
+        </restriction>
     </simpleType>
-
-	<complexType name="AccountContainer">
-    	<sequence>
-    		<element name="Page" type="int" minOccurs="1" maxOccurs="1" />
-    		<element name="Accounts" type="recipient:RecipientId" minOccurs="0" maxOccurs="unbounded" />
-    		<element name="MorePages" type="boolean" minOccurs="1" maxOccurs="1" />
-    	</sequence>
+    <complexType name="AccountContainer">
+        <sequence>
+            <element name="Page" type="int" minOccurs="1" maxOccurs="1"/>
+            <element name="Accounts" type="recipient:RecipientId" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="MorePages" type="boolean" minOccurs="1" maxOccurs="1"/>
+        </sequence>
     </complexType>
-    
     <simpleType name="AccountTypes">
-    	<restriction base="string">
-    		<enumeration value="Secure" />
-    		<enumeration value="Anonymous" />
-    		<enumeration value="Not" />
-    	</restriction>
+        <restriction base="string">
+            <enumeration value="Secure"/>
+            <enumeration value="Anonymous"/>
+            <enumeration value="Not"/>
+        </restriction>
     </simpleType>
-
     <simpleType name="AccountRequestTypes">
-    	<restriction base="string">
-    		<enumeration value="Create" />
-    		<enumeration value="Delete" />
-    	</restriction>
+        <restriction base="string">
+            <enumeration value="Create"/>
+            <enumeration value="Delete"/>
+        </restriction>
     </simpleType>
-
     <complexType name="AccountStatus">
-    	<sequence>
-    		<element name="RecipientId" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-    		<element name="Type" type="recipient:AccountTypes" minOccurs="1" maxOccurs="1" />
-    		<element name="Pending" type="boolean" minOccurs="1" maxOccurs="1" />
-    		<element name="ServiceSupplier" type="recipient:ServiceSupplier" minOccurs="0" maxOccurs="1" />
-    		<element name="LastRegistration" type="dateTime" minOccurs="0" maxOccurs="1" />
-    	</sequence>
+        <sequence>
+            <element name="RecipientId" type="recipient:RecipientId" minOccurs="1" maxOccurs="1"/>
+            <element name="Type" type="recipient:AccountTypes" minOccurs="1" maxOccurs="1"/>
+            <element name="Pending" type="boolean" minOccurs="1" maxOccurs="1"/>
+            <element name="ServiceSupplier" type="recipient:ServiceSupplier" minOccurs="0" maxOccurs="1"/>
+            <element name="LastRegistration" type="dateTime" minOccurs="0" maxOccurs="1"/>
+        </sequence>
     </complexType>
-
     <simpleType name="EMailAdress">
-    	<restriction base="string">
-    		<minLength value="5" />
-    		<maxLength value="256" />
-    		<pattern value=".+@.+\..+" />
-    	</restriction>
+        <restriction base="string">
+            <minLength value="5"/>
+            <maxLength value="256"/>
+            <pattern value=".+@.+\..+"/>
+        </restriction>
     </simpleType>
-
     <complexType name="ServiceSupplier">
-    	<sequence>
-    		<element name="Id" type="sender:OrganizationNumber" minOccurs="1" maxOccurs="1" />
-    		<element name="Name" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Logo" type="anyURI" minOccurs="0" maxOccurs="1" />
-    		<element name="ServiceAdress" type="anyURI" minOccurs="1" maxOccurs="1" />
-    		<element name="UIAdress" type="anyURI" minOccurs="0" maxOccurs="1" />
-    		<element name="InternalServiceAdress" type="anyURI" minOccurs="1" maxOccurs="1" />
-    	</sequence>
+        <sequence>
+            <element name="Id" type="sender:OrganizationNumber" minOccurs="1" maxOccurs="1"/>
+            <element name="Name" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="Logo" type="anyURI" minOccurs="0" maxOccurs="1"/>
+            <element name="ServiceAdress" type="anyURI" minOccurs="1" maxOccurs="1"/>
+            <element name="UIAdress" type="anyURI" minOccurs="0" maxOccurs="1"/>
+            <element name="InternalServiceAdress" type="anyURI" minOccurs="1" maxOccurs="1"/>
+        </sequence>
     </complexType>
-
     <complexType name="AccountRequest">
-    	<sequence>
-    		<element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-    		<element name="Type" type="recipient:AccountRequestTypes" minOccurs="1" maxOccurs="1" />
-    		<element name="AgreementText" type="string" minOccurs="1" maxOccurs="1" />
-    		<element name="Timestamp" type="date" minOccurs="1" maxOccurs="1" />
-    		<element name="ServiceSupplier" type="string" minOccurs="1" maxOccurs="1" />
-    	</sequence>
+        <annotation>
+            <documentation>Deprecated. This type is redefined within v2 and upwards.</documentation>
+        </annotation>
+        <sequence>
+            <element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1"/>
+            <element name="Type" type="recipient:AccountRequestTypes" minOccurs="1" maxOccurs="1"/>
+            <element name="AgreementText" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="Timestamp" type="date" minOccurs="1" maxOccurs="1"/>
+            <element name="ServiceSupplier" type="string" minOccurs="1" maxOccurs="1"/>
+        </sequence>
     </complexType>
-
     <complexType name="PendingAccountRequest">
-    	<sequence>
-    		<element name="AccountRequest" type="recipient:AccountRequest" minOccurs="1" maxOccurs="1" />
-    		<element name="SignatureStatus" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1" />
-    	</sequence>
+        <sequence>
+            <element name="AccountRequest" type="recipient:AccountRequest" minOccurs="1" maxOccurs="1"/>
+            <element name="SignatureStatus" type="authority:SignatureAuthorizationResult" minOccurs="1" maxOccurs="1"/>
+        </sequence>
     </complexType>
-
     <complexType name="AccountAgreement">
         <sequence>
             <element name="AccountRequest" type="recipient:AccountRequest" minOccurs="1" maxOccurs="1"/>
             <element name="Signatures" type="base64Binary" minOccurs="1" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
-
-	<complexType name="ReachabilityStatus">
-		<sequence>
-			<element name="AccountStatus" type="recipient:AccountStatus" minOccurs="1" maxOccurs="1" />
-			<element name="SenderAccepted" type="boolean" minOccurs="1" maxOccurs="1" />
-			<element name="LastSenderAcceptChange" type="dateTime" minOccurs="0" maxOccurs="1" />
-		</sequence>
-	</complexType>
-
-	<complexType name="AccountPreferences">
-		<sequence>
-			<element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1" />
-			<element name="AcceptedSenders" type="sender:Sender" minOccurs="0" maxOccurs="unbounded" />
-		</sequence>
-	</complexType>
+    <complexType name="ReachabilityStatus">
+        <sequence>
+            <element name="AccountStatus" type="recipient:AccountStatus" minOccurs="1" maxOccurs="1"/>
+            <element name="SenderAccepted" type="boolean" minOccurs="1" maxOccurs="1"/>
+            <element name="LastSenderAcceptChange" type="dateTime" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+    <complexType name="AccountPreferences">
+        <sequence>
+            <element name="Id" type="recipient:RecipientId" minOccurs="1" maxOccurs="1"/>
+            <element name="AcceptedSenders" type="sender:Sender" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
 </schema>

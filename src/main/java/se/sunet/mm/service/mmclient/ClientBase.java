@@ -42,7 +42,7 @@ public class ClientBase {
         String endpoint = urlEndpoint;
 
         if (endpoint == null) {
-            endpoint = String.format("%s/%s", wsBaseEndpoint, serviceName);
+            endpoint = String.format("%s/%s/v3", wsBaseEndpoint, serviceName);
         }
 
         svc = instantiate(serviceInterface);
